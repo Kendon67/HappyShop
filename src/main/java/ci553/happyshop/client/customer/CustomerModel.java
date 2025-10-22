@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TODO
@@ -64,12 +62,11 @@ public class CustomerModel {
 
     void addToTrolley(){
         if(theProduct!= null){
-
-            // To keep the trolley organized, add code here or call a method that:
-            //TODO
-            // 1. Merges items with the same product ID (combining their quantities). DONE
-            // 2. Sorts the products in the trolley by product ID.
             organizeTrolley();
+            // Sort trolley in Asc by productId
+            trolley.sort(
+                    Comparator.comparing(Product::getProductId)
+            );
             displayTaTrolley = ProductListFormatter.buildString(trolley); //build a String for trolley so that we can show it
         }
         else{
