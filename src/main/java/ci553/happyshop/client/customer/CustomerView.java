@@ -13,9 +13,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javafx.stage.Stage;
 
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 /**
@@ -73,6 +79,7 @@ public class CustomerView  {
         WinPosManager.registerWindow(window,WIDTH,HEIGHT); //calculate position x and y for this window
         window.show();
         viewWindow=window;// Sets viewWindow to this window for future reference and management.
+//        playBgMusic();
     }
 
     private VBox createSearchPage() {
@@ -213,6 +220,14 @@ public class CustomerView  {
 
     WindowBounds getWindowBounds() {
         return new WindowBounds(viewWindow.getX(), viewWindow.getY(),
-                  viewWindow.getWidth(), viewWindow.getHeight());
+                viewWindow.getWidth(), viewWindow.getHeight());
     }
+
+//    MediaPlayer mediaPlayer;
+//    public void playBgMusic(){
+//        String songName = "Simpsons.mp3";
+//        Media musicPlayer = new Media(Paths.get("./"+songName).toUri().toString());
+//        mediaPlayer = new  MediaPlayer(musicPlayer);
+//        mediaPlayer.play();
+//    }
 }
