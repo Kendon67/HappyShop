@@ -15,10 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Optional;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -138,7 +136,7 @@ public class CustomerView  {
         btnCancel.setStyle(UIStyle.buttonStyle);
 
         Button btnPayment = new Button("Payment");
-        btnPayment.setOnAction(actionEvent -> {createPaymentPage();});
+        btnPayment.setOnAction(this::buttonClicked);
         btnPayment.setStyle(UIStyle.buttonStyle);
 
         HBox hbBtns = new HBox(10, btnCancel, btnPayment);
@@ -154,12 +152,13 @@ public class CustomerView  {
 
     // create a page allowing the user to enter payment details
     // textfields within a VBOX to stack them
-    private void createPaymentPage(){
-        Stage paymentFrame = new Stage();
-        paymentFrame.setTitle("Pay");
 
-        VBox paymentBox = new VBox();
-        paymentBox.setAlignment(Pos.CENTER);
+    public void cardPaymentPage(){
+        Stage cardWindow = new Stage();
+        cardWindow.setTitle("Pay");
+
+        VBox cardBox = new VBox();
+        cardBox.setAlignment(Pos.CENTER);
 
         TextField cardholderField = new TextField();
         cardholderField.setPromptText("Cardholder Name");
@@ -177,8 +176,12 @@ public class CustomerView  {
         cvvField.setPromptText("CVV");
         cvvField.setStyle(UIStyle.textFiledStyle);
 
+        Button cashBtn = new Button("Pay in Cash");
+        cashBtn.setStyle(UIStyle.buttonStyle);
+        cashBtn.setOnAction(actionEvent1 -> cashPaymentPage());
+
         // get result of each textfield and pass them to controller for validation
-        Button submitBtn = new Button("Submit & Pay");
+        Button submitBtn = new Button("Submit & Pay Card");
         submitBtn.setStyle(UIStyle.buttonStyle);
         submitBtn.setOnAction(actionEvent -> {
             String cardHolder = cardholderField.getText();
@@ -188,27 +191,67 @@ public class CustomerView  {
 
             cusController.passCardDetails(cardHolder, cardNum, cardExpiry, cvv);
             try{
-                cusController.doAction("Submit & Pay");
+                cusController.doAction("Submit & Pay Card");
 
             } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
-            paymentFrame.close();
+            cardWindow.close();
         });
-
-        paymentBox.getChildren().addAll(cardholderField,cardNumField,cardExpiryField,cvvField, submitBtn);
-        paymentFrame.setResizable(false);
-        paymentFrame.setWidth(WIDTH);
-        paymentFrame.setHeight(HEIGHT);
-        paymentFrame.setScene(new Scene(paymentBox));
-        paymentFrame.show();
+        cardBox.getChildren().addAll(cardholderField,cardNumField,cardExpiryField,
+                cvvField, cashBtn, submitBtn);
+        cardWindow.setResizable(false);
+        cardWindow.setWidth(WIDTH);
+        cardWindow.setHeight(HEIGHT);
+        cardWindow.setScene(new Scene(cardBox));
+        cardWindow.show();
     }
 
-    private void passDetails(){
+    public void cashPaymentPage(){
+        Stage cashWindow = new Stage();
+        cashWindow.setTitle("Cash Payment");
 
+        VBox cashBox = new VBox();
+        cashBox.setAlignment(Pos.CENTER);
+
+        TextField cashEntry = new TextField();
+        cashEntry.setPromptText("Enter Amount: ");
+        cashEntry.setStyle(UIStyle.textFiledStyle);
+        cashEntry.setPrefWidth(COLUMN_WIDTH);
+
+        Button submitBtn = new Button("Submit & Pay Cash");
+        submitBtn.setStyle(UIStyle.buttonStyle);
+        submitBtn.setOnAction(this::buttonClicked);
+
+        cashBox.getChildren().addAll(cashEntry, submitBtn);
+        cashWindow.setScene(new Scene(cashBox));
+        cashWindow.show();
+    };
+
+    public void cardInvalid(){
+        Dialog<String> cardInvalidAlert = new Dialog<>();
+        cardInvalidAlert.setTitle("Card Invalid");
+        cardInvalidAlert.setHeaderText("Card Invalid");
+        cardInvalidAlert.setContentText("Please enter valid Card Details");
+        cardInvalidAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cardInvalidAlert.showAndWait();
     }
 
-    private void paymentInvalid(){}
+    public void forceCash(){
+        Dialog<String> cashOnlyAlert = new Dialog<>();
+        cashOnlyAlert.setTitle("Cash Only");
+        cashOnlyAlert.setContentText("Trolley is under £5, cash payment required.");
+        cashOnlyAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cashOnlyAlert.showAndWait();
+    }
+
+    public void paymentAccepted(){
+        Dialog<String> paymentAcceptedAlert = new Dialog<>();
+        paymentAcceptedAlert.setTitle("Payment Accepted");
+        paymentAcceptedAlert.setHeaderText("Payment has been accepted");
+        paymentAcceptedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        paymentAcceptedAlert.showAndWait();
+    };
 
 
     private VBox createReceiptPage() {

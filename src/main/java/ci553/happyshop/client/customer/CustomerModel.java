@@ -148,30 +148,40 @@ public class CustomerModel {
         updateView();
     }
 
-    void pay() throws IOException, SQLException {
-        boolean cardAllowed = true;
+    /* check if trolley is under £5
+    *  if so alert user and force cash screen
+    * otherwise continue to card payment */
+    void cashOnlyCheck () throws SQLException, IOException {
         double totalPrice = 0;
-        boolean cardValidated = false;
-
         for (Product pr : trolley) {
             totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
         }
+        System.out.println("Total price is " + totalPrice);
         if (totalPrice < 5) {
-            cardAllowed = false;
-            System.out.println("Cash only!");
-            // Cash Only logic here when i can be bothered
+            cusView.forceCash();
+            cusView.cashPaymentPage();
         }
-        // if card payment allowed, validate details in customer card
-        // if valid, run checkout
+        else{
+            cusView.cardPaymentPage();
+        }
+    }
+
+    void payCard() throws IOException, SQLException {
+        boolean cardValidated = false;
+        // validate details in customer card, run checkout if valid
         cardValidated = cusCard.validate();
         if (cardValidated) {
+            cusView.paymentAccepted();
             checkOut();
         }
         else{
-            System.out.println("here ate least");
+            cusView.cardInvalid();
         }
+    }
 
-
+    void payCash() throws IOException, SQLException {
+        cusView.paymentAccepted();
+        checkOut();
     }
 
     /**

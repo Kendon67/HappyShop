@@ -24,8 +24,14 @@ public class CustomerController {
             case "OK & Close":
                 cusModel.closeReceipt();
                 break;
-            case "Submit & Pay":
-                cusModel.pay();
+            case "Payment":
+                cusModel.cashOnlyCheck();
+                break;
+            case "Submit & Pay Card":
+                cusModel.payCard();
+                break;
+            case "Submit & Pay Cash":
+                cusModel.payCash();
                 break;
         }
     }
