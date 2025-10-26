@@ -1,8 +1,5 @@
 ----------------------------------------------------------------
-Wed Oct 22 14:55:41 BST 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-0c34-3b43-000002879248 
-on database directory /Users/connormccarthy/IdeaProjects/HappyShop/happyShopDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@65b3120a 
-Loaded from file:/Users/connormccarthy/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+Sun Oct 26 16:19:47 GMT 2025D001 : [0] The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046), [1] a816c00e-019a-2151-9b4f-0000033cbfb8, [2] /Users/connormccarthy/IdeaProjects/HappyShop/happyShopDB, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@4fca772d, [4] file:/Users/connormccarthy/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Microsoft
 java.runtime.version=21.0.8+9-LTS
 user.dir=/Users/connormccarthy/IdeaProjects/HappyShop
@@ -10,4 +7,4 @@ os.name=Mac OS X
 os.arch=aarch64
 os.version=15.6.1
 derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
+C005 : [0] 

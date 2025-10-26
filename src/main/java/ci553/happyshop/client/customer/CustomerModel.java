@@ -19,6 +19,7 @@ import java.util.*;
  * or create a subclass of CustomerModel and override specific methods where appropriate.
  */
 public class CustomerModel {
+    public CustomerCard cusCard;
     public CustomerView cusView;
     public DatabaseRW databaseRW; //Interface type, not specific implementation
                                   //Benefits: Flexibility: Easily change the database implementation.
@@ -145,6 +146,53 @@ public class CustomerModel {
             System.out.println("Your trolley is empty");
         }
         updateView();
+    }
+
+    /* check if trolley is under £5
+    *  if so alert user and force cash screen
+    * otherwise continue to card payment */
+    void cashOnlyCheck () throws SQLException, IOException {
+        double totalPrice = 0;
+        for (Product pr : trolley) {
+            totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
+        }
+        System.out.println("Total price is " + totalPrice);
+        if (totalPrice < 5) {
+            cusView.forceCash();
+            cusView.cashPaymentPage();
+        }
+        else{
+            cusView.cardPaymentPage();
+        }
+    }
+
+    void payCard() throws IOException, SQLException {
+        boolean cardValidated = false;
+        // validate details in customer card, run checkout if valid
+        cardValidated = cusCard.validate();
+        if (cardValidated) {
+            cusView.paymentAccepted(0);
+            checkOut();
+        }
+        else{
+            cusView.cardInvalid();
+        }
+    }
+
+    void payCash(double cashAmount) throws IOException, SQLException {
+        // get trolley total price, if cash paid is enough then accept and move to checkout
+        double totalPrice = 0;
+        for (Product pr : trolley) {
+            totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
+        }
+        if (cashAmount > 0 &&  cashAmount >= totalPrice) {
+            double change =  cashAmount - totalPrice;
+            cusView.paymentAccepted(change);
+            checkOut();
+        }
+        else{
+            cusView.cashFailed();
+        };
     }
 
     /**
