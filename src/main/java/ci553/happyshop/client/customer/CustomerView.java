@@ -11,12 +11,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -67,6 +70,7 @@ public class CustomerView  {
         hbRoot.setAlignment(Pos.CENTER);
         hbRoot.setStyle(UIStyle.rootStyle);
 
+        //playMusic("/sounds/The Simpsons.mp3");
         Scene scene = new Scene(hbRoot, WIDTH, HEIGHT);
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Customer Client");
@@ -301,6 +305,8 @@ public class CustomerView  {
 
     private void buttonClicked(ActionEvent event) {
         try{
+            playSound("/sounds/button-press-382713.mp3");
+            System.out.println("should work?");
             Button btn = (Button)event.getSource();
             String action = btn.getText();
             if(action.equals("Add to Trolley")){
@@ -336,6 +342,30 @@ public class CustomerView  {
         int lastIndex = hbRoot.getChildren().size() - 1;
         if (lastIndex >= 0) {
             hbRoot.getChildren().set(lastIndex, pageToShow);
+        }
+    }
+
+    public void playSound(String soundPath){
+        try{
+            Media SFX = new Media(Objects.requireNonNull(getClass().getResource(soundPath)).toExternalForm()); // retrieves sound file from provided path
+            MediaPlayer soundPlayer = new MediaPlayer(SFX);
+            soundPlayer.play();
+        }
+        catch (Exception e){
+            System.out.println("Error, No sound effect found");
+            System.out.println (e);
+        }
+    }
+
+    public void playMusic (String musicPath){
+        try{
+            Media Music = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
+            MediaPlayer musicPlayer = new MediaPlayer(Music);
+            musicPlayer.play();
+        }
+        catch (Exception e){
+            System.out.println("Error, No music file found");
+            System.out.println (e);
         }
     }
 
