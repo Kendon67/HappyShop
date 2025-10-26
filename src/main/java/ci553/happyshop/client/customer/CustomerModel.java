@@ -171,7 +171,7 @@ public class CustomerModel {
         // validate details in customer card, run checkout if valid
         cardValidated = cusCard.validate();
         if (cardValidated) {
-            cusView.paymentAccepted();
+            cusView.paymentAccepted(0);
             checkOut();
         }
         else{
@@ -186,7 +186,8 @@ public class CustomerModel {
             totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
         }
         if (cashAmount > 0 &&  cashAmount >= totalPrice) {
-            cusView.paymentAccepted();
+            double change =  cashAmount - totalPrice;
+            cusView.paymentAccepted(change);
             checkOut();
         }
         else{
