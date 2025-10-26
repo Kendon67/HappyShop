@@ -1,8 +1,11 @@
 package ci553.happyshop.client.customer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 // Build card object to store the details required
 public class CustomerCard {
-    CustomerView custView;
 
     protected String cardholderName = "";
     protected String cardNumber = "";
@@ -22,7 +25,7 @@ public void recieveDetails(String cardholderName, String cardNumber, String expi
     public boolean validate() {
         if (cardholderName != null
                 && cardNumber != null && cardNumber.length() > 15 && cardNumber.length() < 20 && luhnCheck(cardNumber)
-                && expiryDate != null
+                && expiryDate != null && validateExpiry(expiryDate)
                 && cvv != null && cvv.length() > 2 && cvv.length() < 5) {
             return true;
         } else {
@@ -51,6 +54,19 @@ public void recieveDetails(String cardholderName, String cardNumber, String expi
                 return true;
             }
             else{return false;}
+        }
+
+        // takes expiration date and checks if it is within the valid format (mm/yyyy)
+        // could improve by adding a check if it's a future date
+        private boolean validateExpiry(String expiryDate){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yy");
+            dateFormat.setLenient(false);
+            try{
+               dateFormat.parse(expiryDate);
+            } catch (ParseException e) {
+                return false;
+            }
+            return true;
         }
 }
 
