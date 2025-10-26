@@ -19,6 +19,7 @@ import java.util.*;
  * or create a subclass of CustomerModel and override specific methods where appropriate.
  */
 public class CustomerModel {
+    public CustomerCard cusCard;
     public CustomerView cusView;
     public DatabaseRW databaseRW; //Interface type, not specific implementation
                                   //Benefits: Flexibility: Easily change the database implementation.
@@ -145,6 +146,32 @@ public class CustomerModel {
             System.out.println("Your trolley is empty");
         }
         updateView();
+    }
+
+    void pay() throws IOException, SQLException {
+        boolean cardAllowed = true;
+        double totalPrice = 0;
+        boolean cardValidated = false;
+
+        for (Product pr : trolley) {
+            totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
+        }
+        if (totalPrice < 5) {
+            cardAllowed = false;
+            System.out.println("Cash only!");
+            // Cash Only logic here when i can be bothered
+        }
+        // if card payment allowed, validate details in customer card
+        // if valid, run checkout
+        cardValidated = cusCard.validate();
+        if (cardValidated) {
+            checkOut();
+        }
+        else{
+            System.out.println("here ate least");
+        }
+
+
     }
 
     /**

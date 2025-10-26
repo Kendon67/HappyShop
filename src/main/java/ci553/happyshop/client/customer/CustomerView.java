@@ -15,8 +15,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -135,11 +137,11 @@ public class CustomerView  {
         btnCancel.setOnAction(this::buttonClicked);
         btnCancel.setStyle(UIStyle.buttonStyle);
 
-        Button btnCheckout = new Button("Check Out");
-        btnCheckout.setOnAction(this::buttonClicked);
-        btnCheckout.setStyle(UIStyle.buttonStyle);
+        Button btnPayment = new Button("Payment");
+        btnPayment.setOnAction(actionEvent -> {createPaymentPage();});
+        btnPayment.setStyle(UIStyle.buttonStyle);
 
-        HBox hbBtns = new HBox(10, btnCancel,btnCheckout);
+        HBox hbBtns = new HBox(10, btnCancel, btnPayment);
         hbBtns.setStyle("-fx-padding: 15px;");
         hbBtns.setAlignment(Pos.CENTER);
 
@@ -149,6 +151,65 @@ public class CustomerView  {
         vbTrolleyPage.setStyle("-fx-padding: 15px;");
         return vbTrolleyPage;
     }
+
+    // create a page allowing the user to enter payment details
+    // textfields within a VBOX to stack them
+    private void createPaymentPage(){
+        Stage paymentFrame = new Stage();
+        paymentFrame.setTitle("Pay");
+
+        VBox paymentBox = new VBox();
+        paymentBox.setAlignment(Pos.CENTER);
+
+        TextField cardholderField = new TextField();
+        cardholderField.setPromptText("Cardholder Name");
+        cardholderField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cardNumField = new TextField();
+        cardNumField.setPromptText("Card Number");
+        cardNumField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cardExpiryField = new TextField();
+        cardExpiryField.setPromptText("Expiry Date");
+        cardExpiryField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cvvField = new TextField();
+        cvvField.setPromptText("CVV");
+        cvvField.setStyle(UIStyle.textFiledStyle);
+
+        // get result of each textfield and pass them to controller for validation
+        Button submitBtn = new Button("Submit & Pay");
+        submitBtn.setStyle(UIStyle.buttonStyle);
+        submitBtn.setOnAction(actionEvent -> {
+            String cardHolder = cardholderField.getText();
+            String cardNum = cardNumField.getText();
+            String cardExpiry = cardExpiryField.getText();
+            String cvv = cvvField.getText();
+
+            cusController.passCardDetails(cardHolder, cardNum, cardExpiry, cvv);
+            try{
+                cusController.doAction("Submit & Pay");
+
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+            paymentFrame.close();
+        });
+
+        paymentBox.getChildren().addAll(cardholderField,cardNumField,cardExpiryField,cvvField, submitBtn);
+        paymentFrame.setResizable(false);
+        paymentFrame.setWidth(WIDTH);
+        paymentFrame.setHeight(HEIGHT);
+        paymentFrame.setScene(new Scene(paymentBox));
+        paymentFrame.show();
+    }
+
+    private void passDetails(){
+
+    }
+
+    private void paymentInvalid(){}
+
 
     private VBox createReceiptPage() {
         Label laPageTitle = new Label("Receipt");
