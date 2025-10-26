@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
-Sun Oct 26 13:55:00 GMT 2025D001 : [0] The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046), [1] a816c00e-019a-20cd-0d01-00000360ad10, [2] /Users/connormccarthy/IdeaProjects/HappyShop/happyShopDB, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@4fca772d, [4] file:/Users/connormccarthy/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+Sun Oct 26 14:37:28 GMT 2025D001 : [0] The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046), [1] a816c00e-019a-20f3-ef46-000003a14a58, [2] /Users/connormccarthy/IdeaProjects/HappyShop/happyShopDB, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@4fca772d, [4] file:/Users/connormccarthy/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Microsoft
 java.runtime.version=21.0.8+9-LTS
 user.dir=/Users/connormccarthy/IdeaProjects/HappyShop

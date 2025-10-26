@@ -179,9 +179,19 @@ public class CustomerModel {
         }
     }
 
-    void payCash() throws IOException, SQLException {
-        cusView.paymentAccepted();
-        checkOut();
+    void payCash(double cashAmount) throws IOException, SQLException {
+        // get trolley total price, if cash paid is enough then accept and move to checkout
+        double totalPrice = 0;
+        for (Product pr : trolley) {
+            totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
+        }
+        if (cashAmount > 0 &&  cashAmount >= totalPrice) {
+            cusView.paymentAccepted();
+            checkOut();
+        }
+        else{
+            cusView.cashFailed();
+        };
     }
 
     /**

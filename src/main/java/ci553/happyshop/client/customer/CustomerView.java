@@ -178,7 +178,15 @@ public class CustomerView  {
 
         Button cashBtn = new Button("Pay in Cash");
         cashBtn.setStyle(UIStyle.buttonStyle);
-        cashBtn.setOnAction(actionEvent1 -> cashPaymentPage());
+        cashBtn.setOnAction(actionEvent1 -> {
+            try {
+                cashPaymentPage();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // get result of each textfield and pass them to controller for validation
         Button submitBtn = new Button("Submit & Pay Card");
@@ -207,7 +215,7 @@ public class CustomerView  {
         cardWindow.show();
     }
 
-    public void cashPaymentPage(){
+    public void cashPaymentPage() throws SQLException, IOException {
         Stage cashWindow = new Stage();
         cashWindow.setTitle("Cash Payment");
 
@@ -221,7 +229,15 @@ public class CustomerView  {
 
         Button submitBtn = new Button("Submit & Pay Cash");
         submitBtn.setStyle(UIStyle.buttonStyle);
-        submitBtn.setOnAction(this::buttonClicked);
+
+        submitBtn.setOnAction(e -> {
+            double cashAmount = Double.parseDouble(cashEntry.getText());
+            try {
+                cusController.passCashDetails(cashAmount);
+            } catch (IOException | SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         cashBox.getChildren().addAll(cashEntry, submitBtn);
         cashWindow.setScene(new Scene(cashBox));
@@ -253,6 +269,13 @@ public class CustomerView  {
         paymentAcceptedAlert.showAndWait();
     };
 
+    public void cashFailed() {
+        Dialog<String> cashFailedAlert = new Dialog<>();
+        cashFailedAlert.setTitle("Payment Accepted");
+        cashFailedAlert.setHeaderText("Please enter a valid cash amount for this transaction.");
+        cashFailedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cashFailedAlert.showAndWait();
+    }
 
     private VBox createReceiptPage() {
         Label laPageTitle = new Label("Receipt");

@@ -30,13 +30,14 @@ public class CustomerController {
             case "Submit & Pay Card":
                 cusModel.payCard();
                 break;
-            case "Submit & Pay Cash":
-                cusModel.payCash();
-                break;
         }
     }
 
     public void passCardDetails(String cardHolder, String cardNum, String cardExpiry, String cvv) {
         cusCard.recieveDetails(cardHolder, cardNum, cardExpiry, cvv);
+    }
+
+    public void passCashDetails(double cashAmount) throws IOException, SQLException {
+        cusModel.payCash(cashAmount);
     }
 }
