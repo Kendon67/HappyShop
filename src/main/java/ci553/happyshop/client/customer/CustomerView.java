@@ -70,7 +70,7 @@ public class CustomerView  {
         hbRoot.setAlignment(Pos.CENTER);
         hbRoot.setStyle(UIStyle.rootStyle);
 
-        //playMusic("/sounds/The Simpsons.mp3");
+        playMusic("/sounds/The Simpsons.mp3");
         Scene scene = new Scene(hbRoot, WIDTH, HEIGHT);
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Customer Client");
