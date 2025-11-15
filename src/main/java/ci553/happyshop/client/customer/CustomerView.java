@@ -114,9 +114,9 @@ public class CustomerView  {
         HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
 
         obeProductList = FXCollections.observableArrayList();
-        obrLvProducts = new ListView<>(obeProductList); // listview observes the above list
-        obrLvProducts.setPrefHeight(HEIGHT);
-        obrLvProducts.setPrefWidth(WIDTH);
+        obrLvProducts = new ListView<>(obeProductList);
+        obrLvProducts.setPrefHeight(HEIGHT - 50);
+        obrLvProducts.setFixedCellSize(50);
         obrLvProducts.setStyle(UIStyle.listViewStyle);
 
         ivProduct = new ImageView("imageHolder.jpg");
