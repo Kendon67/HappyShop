@@ -86,6 +86,17 @@ public class CustomerModel {
         updateView();
     }
 
+    public Product selectItem(){
+        theProduct = cusView.obrLvProducts.getSelectionModel().getSelectedItem();
+        if (theProduct != null){
+            return theProduct;
+        }
+        else{
+            System.out.println("Please select a product before adding it to the trolley");
+            return null;
+        }
+    }
+
     void organizeTrolley() {
         /* iterate through trolley and check if item in trolley is same as current product
         * add the item quantities

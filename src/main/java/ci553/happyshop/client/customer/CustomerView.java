@@ -55,7 +55,7 @@ public class CustomerView  {
 
     //observable list for flexible product search
     private ObservableList<Product> obeProductList;
-    private ListView<Product> obrLvProducts;
+    protected ListView<Product> obrLvProducts;
 
     // Holds a reference to this CustomerView window for future access and management
     // (e.g., positioning the removeProductNotifier when needed).
@@ -168,6 +168,17 @@ public class CustomerView  {
                 }
             }
 
+        });
+
+        // click item in the list to 'select it' before adding to trolley
+        obrLvProducts.setOnMouseClicked(event -> {
+            try {
+                cusController.doAction("Select Item");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         return vbSearchPage;
