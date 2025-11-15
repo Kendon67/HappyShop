@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -128,7 +129,7 @@ public class CustomerView  {
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
         lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
+        HBox hbSearchResult = new HBox(5, obrLvProducts);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
@@ -161,15 +162,24 @@ public class CustomerView  {
                         ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
                     }
 
-                    Label laProToString = new Label(product.toString()); // Create a label for product details
-                    HBox hbox = new HBox(10, ivPro, laProToString); // Put ImageView and label in a horizontal layout
-                    setGraphic(hbox);  // Set the whole row content
+                    Label laProToString = new Label(product.toString());
+                    HBox hbox = new HBox(10, ivPro, laProToString);
+                    setGraphic(hbox);
                 }
             }
 
         });
 
         return vbSearchPage;
+    }
+
+    //update the product listVew of serachPage
+    void updateObservableProductList( ArrayList<Product> productList) {
+        System.out.println("updateObservableProductList");
+        int proCounter = productList.size();
+        System.out.println(proCounter);
+        obeProductList.clear();
+        obeProductList.addAll(productList);
     }
 
     private VBox CreateTrolleyPage() {
