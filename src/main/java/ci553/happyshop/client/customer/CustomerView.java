@@ -1,6 +1,7 @@
 package ci553.happyshop.client.customer;
 
 import ci553.happyshop.catalogue.Product;
+import ci553.happyshop.utility.StorageLocation;
 import ci553.happyshop.utility.UIStyle;
 import ci553.happyshop.utility.WinPosManager;
 import ci553.happyshop.utility.WindowBounds;
@@ -19,6 +20,8 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 /**
@@ -132,6 +135,39 @@ public class CustomerView  {
         vbSearchPage.setPrefWidth(COLUMN_WIDTH);
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
         vbSearchPage.setStyle("-fx-padding: 15px;");
+
+        // anonymous inner method
+        // formats items for search result box
+        obrLvProducts.setCellFactory(param -> new ListCell<Product>() {
+            @Override
+            protected void updateItem(Product product, boolean empty) {
+                super.updateItem(product, empty);
+
+                if(empty || product == null) {
+                    setGraphic(null);
+                    System.out.println("setCellFactory - Item is empty!");
+                } else{
+                    // build image URL for cell usage
+                    String imageName = product.getProductImageName();
+                    String imageURL = StorageLocation.imageFolder + imageName;
+                    Path imagePath  = Paths.get(imageURL).toAbsolutePath();
+                    String imageUri = imagePath.toUri().toString();
+
+                    ImageView ivPro;
+                    try{
+                        ivPro = new ImageView(new Image(imageUri, 50, 50, true, true ));
+                    }
+                    catch(Exception e){
+                        ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
+                    }
+
+                    Label laProToString = new Label(product.toString()); // Create a label for product details
+                    HBox hbox = new HBox(10, ivPro, laProToString); // Put ImageView and label in a horizontal layout
+                    setGraphic(hbox);  // Set the whole row content
+                }
+            }
+
+        });
 
         return vbSearchPage;
     }
