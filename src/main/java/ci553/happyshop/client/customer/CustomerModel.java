@@ -26,6 +26,7 @@ public class CustomerModel {
 
     private Product theProduct =null; // product found from search
     private ArrayList<Product> trolley =  new ArrayList<>(); // a list of products in trolley
+    private ArrayList<Product> productList = new ArrayList<>();
 
     // Four UI elements to be passed to CustomerView for display updates.
     private String imageName = "imageHolder.jpg";                // Image to show in product preview (Search Page)
@@ -58,6 +59,8 @@ public class CustomerModel {
             displayLaSearchResult = "Please type ProductID";
             System.out.println("Please type ProductID.");
         }
+        productList.add(theProduct);
+        cusView.updateObservableProductList(productList);
         updateView();
     }
 
