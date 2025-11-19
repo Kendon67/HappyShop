@@ -167,7 +167,6 @@ public class CustomerView  {
                     setGraphic(hbox);
                 }
             }
-
         });
 
         // click item in the list to 'select it' before adding to trolley
