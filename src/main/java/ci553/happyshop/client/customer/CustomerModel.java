@@ -40,6 +40,10 @@ public class CustomerModel {
         String keyword = cusView.tfName.getText().trim();
         if(!productId.isEmpty()){
             theProduct = databaseRW.searchByProductId(productId); //search database
+            // Add product to the observable list
+            if(theProduct != null && theProduct.getStockQuantity() > 0){
+                productList.add(theProduct);
+            }
             if(theProduct != null && theProduct.getStockQuantity()>0){
                 double unitPrice = theProduct.getUnitPrice();
                 String description = theProduct.getProductDescription();
