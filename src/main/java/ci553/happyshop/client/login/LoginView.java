@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -28,15 +29,18 @@ public class LoginView {
         Text title = new Text("Happy Shop");
         title.setId("title");
 
+        // create circular white border around the logo
+        double circleRadius = 70;
+        Circle logoCircle = new Circle(circleRadius, circleRadius, circleRadius);
+
         Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
         ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(100);
-        logoView.setFitHeight(100);
+        logoView.setFitWidth(circleRadius * 2 * 0.9); // 90% of circle diameter
+        logoView.setFitHeight(circleRadius * 2 * 0.9);
         logoView.setPreserveRatio(true);
-
-        // create circular white border around the logo
-        Circle logoCircle = new Circle(50,50,50);
         logoView.setClip(logoCircle);
+        logoCircle.setFill(new ImagePattern(logo));
+
 
         Circle border = new Circle(50, 50, 50);
         border.setStroke(javafx.scene.paint.Color.BLACK);
