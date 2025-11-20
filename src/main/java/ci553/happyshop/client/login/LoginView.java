@@ -41,7 +41,6 @@ public class LoginView {
         logoView.setClip(logoCircle);
         logoCircle.setFill(new ImagePattern(logo));
 
-
         Circle border = new Circle(50, 50, 50);
         border.setStroke(javafx.scene.paint.Color.BLACK);
         border.setStrokeWidth(2);
@@ -53,18 +52,12 @@ public class LoginView {
         leftLayout.getChildren().addAll(title, circularLogo);
         leftLayout.setAlignment(Pos.CENTER);
 
-        // buttons allowing user access to either part of the application
+        // create hboxes for horizontal lining of button + image
+        HBox customerRow = new HBox(20);
+
         Button customerButton = new Button("Customer Login");
         customerButton.setOnAction((event) -> {loginController.openCustomerClient();
         });
-
-        Button warehouseButton = new Button("Warehouse Login");
-        warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
-        });
-
-        // create hbox for horizontal lining of button + image
-        HBox customerRow = new HBox(20);
-        HBox warehouseRow = new HBox(20);
 
         // user icon
         Image userIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("user_icon.png")));
@@ -74,8 +67,13 @@ public class LoginView {
         userIconView.setPreserveRatio(true);
 
         customerRow.getChildren().addAll(userIconView,customerButton);
-        customerRow.setAlignment(Pos.CENTER);
+        customerRow.setAlignment(Pos.TOP_CENTER);
 
+        HBox warehouseRow = new HBox(20);
+
+        Button warehouseButton = new Button("Warehouse Login");
+        warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
+        });
         // warehouse Icon
         Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
         ImageView warehouseIconView = new ImageView(warehouseIcon);
@@ -84,10 +82,15 @@ public class LoginView {
         warehouseIconView.setPreserveRatio(true);
 
         warehouseRow.getChildren().addAll(warehouseIconView,warehouseButton);
-        warehouseRow.setAlignment(Pos.BOTTOM_CENTER);
+        warehouseRow.setAlignment(Pos.CENTER);
+
+        HBox managerRow = new HBox(20);
+        Button managerButton = new Button("Manager Login");
+        managerRow.getChildren().add(managerButton);
+        managerRow.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox rightLayout = new VBox(10);
-        rightLayout.getChildren().addAll(customerRow, warehouseRow);
+        rightLayout.getChildren().addAll(customerRow, warehouseRow, managerRow);
         rightLayout.setAlignment(Pos.CENTER);
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
