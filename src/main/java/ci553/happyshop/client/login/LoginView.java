@@ -13,8 +13,13 @@ public class LoginView {
 
     public void startLogin(Stage loginWindow){
         loginWindow.setTitle("Login Page");
+        HBox root = new HBox();
 
-        // Create buttons allowing user access to either part of the application
+        VBox leftLayout = new VBox();
+        leftLayout.setStyle("-fx-background-color: red;");
+
+        HBox.setHgrow(leftLayout, Priority.ALWAYS);
+        // create buttons allowing user access to either part of the application
         Button customerButton = new Button("Customer Login");
         customerButton.setOnAction((event) -> {loginController.openCustomerClient();
         });
@@ -24,10 +29,14 @@ public class LoginView {
         });
 
 
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(customerButton, warehouseButton);
+        VBox rightLayout = new VBox(10);
+        rightLayout.getChildren().addAll(customerButton, warehouseButton);
 
-        Scene scene = new Scene(layout, 250, 300);
+        HBox.setHgrow(leftLayout, Priority.ALWAYS);
+        HBox.setHgrow(rightLayout, Priority.ALWAYS);
+        root.getChildren().addAll(leftLayout,rightLayout);
+
+        Scene scene = new Scene(root, 500, 500);
 //        scene.getStylesheets().add(Objects.requireNonNull(LoginView.class.getResource("loginStyle.css")).toExternalForm());
         loginWindow.setScene(scene);
         loginWindow.show();

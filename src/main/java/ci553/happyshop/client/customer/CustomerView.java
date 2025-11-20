@@ -79,7 +79,6 @@ public class CustomerView  {
         WinPosManager.registerWindow(window,WIDTH,HEIGHT); //calculate position x and y for this window
         window.show();
         viewWindow=window;// Sets viewWindow to this window for future reference and management.
-//        playBgMusic();
     }
 
     private VBox createSearchPage() {
@@ -222,12 +221,4 @@ public class CustomerView  {
         return new WindowBounds(viewWindow.getX(), viewWindow.getY(),
                 viewWindow.getWidth(), viewWindow.getHeight());
     }
-
-//    MediaPlayer mediaPlayer;
-//    public void playBgMusic(){
-//        String songName = "Simpsons.mp3";
-//        Media musicPlayer = new Media(Paths.get("./"+songName).toUri().toString());
-//        mediaPlayer = new  MediaPlayer(musicPlayer);
-//        mediaPlayer.play();
-//    }
 }
