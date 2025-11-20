@@ -53,10 +53,15 @@ public class LoginView {
 
         // buttons allowing user access to either part of the application
         Button customerButton = new Button("Customer Login");
+        customerButton.setStyle("-fx-background-color: #AF69EE; " +
+                "-fx-text-fill: white;");
         customerButton.setOnAction((event) -> {loginController.openCustomerClient();
         });
 
         Button warehouseButton = new Button("Warehouse Login");
+
+        warehouseButton.setStyle("-fx-background-color: #AF69EE;" +
+                "-fx-text-fill: white;");
         warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
         });
 
