@@ -23,12 +23,10 @@ public class LoginView {
         HBox root = new HBox();
 
         VBox leftLayout = new VBox();
-        leftLayout.setStyle("-fx-background-color: #AF69EE;");
+        leftLayout.setId("leftLayout");
 
         Text title = new Text("Happy Shop");
-        title.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
-        title.setStyle("-fx-font-size: 20px");
-        title.setFill(Color.WHITE);
+        title.setId("title");
 
         Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
         ImageView logoView = new ImageView(logo);
@@ -53,15 +51,10 @@ public class LoginView {
 
         // buttons allowing user access to either part of the application
         Button customerButton = new Button("Customer Login");
-        customerButton.setStyle("-fx-background-color: #AF69EE; " +
-                "-fx-text-fill: white;");
         customerButton.setOnAction((event) -> {loginController.openCustomerClient();
         });
 
         Button warehouseButton = new Button("Warehouse Login");
-
-        warehouseButton.setStyle("-fx-background-color: #AF69EE;" +
-                "-fx-text-fill: white;");
         warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
         });
 
@@ -98,7 +91,7 @@ public class LoginView {
         root.getChildren().addAll(leftLayout,rightLayout);
 
         Scene scene = new Scene(root, 500, 500);
-//        scene.getStylesheets().add(Objects.requireNonNull(LoginView.class.getResource("loginStyle.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("style/login.css")).toExternalForm());
         loginWindow.setScene(scene);
         loginWindow.show();
     }
