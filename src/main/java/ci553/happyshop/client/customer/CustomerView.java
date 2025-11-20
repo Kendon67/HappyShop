@@ -14,9 +14,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -300,6 +303,8 @@ public class CustomerView  {
 
 
     private void buttonClicked(ActionEvent event) {
+        System.out.println("buttonClicked");
+        playSound("/sounds/click.mp3");
         try{
             Button btn = (Button)event.getSource();
             String action = btn.getText();
@@ -338,6 +343,29 @@ public class CustomerView  {
             hbRoot.getChildren().set(lastIndex, pageToShow);
         }
     }
+
+    public void playSound(String soundPath){
+        try{
+            Media SFX = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource(soundPath)).toExternalForm());
+            MediaPlayer soundPlayer = new MediaPlayer(SFX);
+            soundPlayer.play();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void playMusic(String musicPath){
+        try{
+            Media Music = new  Media(Objects.requireNonNull(getClass().getClassLoader().getResource(musicPath)).toExternalForm());
+            MediaPlayer musicPlayer = new MediaPlayer(Music);
+            musicPlayer.play();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
 
     WindowBounds getWindowBounds() {
         return new WindowBounds(viewWindow.getX(), viewWindow.getY(),
