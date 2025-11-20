@@ -268,7 +268,6 @@ public class CustomerView  {
 
     public void paymentAccepted(double change){
         Dialog<String> paymentAcceptedAlert = new Dialog<>();
-        playErrorSound();
         paymentAcceptedAlert.setTitle("Payment Accepted");
         paymentAcceptedAlert.setHeaderText("Payment has been accepted");
         paymentAcceptedAlert.setContentText("Change: £" + change);
