@@ -250,6 +250,7 @@ public class CustomerView  {
 
     public void cardInvalid(){
         Dialog<String> cardInvalidAlert = new Dialog<>();
+        playErrorSound();
         cardInvalidAlert.setTitle("Card Invalid");
         cardInvalidAlert.setHeaderText("Card Invalid");
         cardInvalidAlert.setContentText("Please enter valid Card Details");
@@ -276,6 +277,7 @@ public class CustomerView  {
 
     public void cashFailed() {
         Dialog<String> cashFailedAlert = new Dialog<>();
+        playErrorSound();
         cashFailedAlert.setTitle("Payment Accepted");
         cashFailedAlert.setHeaderText("Please enter a valid cash amount for this transaction.");
         cashFailedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -367,6 +369,10 @@ public class CustomerView  {
             System.out.println("Error, No music file found");
             System.out.println (e);
         }
+    }
+
+    public void playErrorSound(){
+        playSound("/sounds/Windows_Hardware_Remove.wav");
     }
 
     WindowBounds getWindowBounds() {
