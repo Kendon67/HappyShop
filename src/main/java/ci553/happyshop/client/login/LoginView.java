@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -27,8 +28,9 @@ public class LoginView {
         leftLayout.setStyle("-fx-background-color: #AF69EE;");
 
         Text title = new Text("Happy Shop");
-        title.setFont(Font.font("Helvetica"));
-        title.setStyle("-fx-font-size: 20px;");
+        title.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
+        title.setStyle("-fx-font-size: 20px");
+        title.setFill(Color.WHITE);
 
         Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
         ImageView logoView = new ImageView(logo);
@@ -51,9 +53,7 @@ public class LoginView {
         leftLayout.getChildren().addAll(title, circularLogo);
         leftLayout.setAlignment(Pos.CENTER);
 
-
-        HBox.setHgrow(leftLayout, Priority.ALWAYS);
-        // create buttons allowing user access to either part of the application
+        // buttons allowing user access to either part of the application
         Button customerButton = new Button("Customer Login");
         customerButton.setOnAction((event) -> {loginController.openCustomerClient();
         });
@@ -62,9 +62,33 @@ public class LoginView {
         warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
         });
 
+        // create hbox for horizontal lining of button + image
+        HBox customerRow = new HBox(20);
+        HBox warehouseRow = new HBox(20);
 
-        VBox rightLayout = new VBox();
-        rightLayout.getChildren().addAll(customerButton, warehouseButton);
+        // user icon
+        Image userIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("user_icon.png")));
+        ImageView userIconView = new ImageView(userIcon);
+        userIconView.setFitWidth(50);
+        userIconView.setFitHeight(50);
+        userIconView.setPreserveRatio(true);
+
+        customerRow.getChildren().addAll(userIconView,customerButton);
+        customerRow.setAlignment(Pos.CENTER);
+
+        // warehouse Icon
+        Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.jpg")));
+        ImageView warehouseIconView = new ImageView(warehouseIcon);
+        warehouseIconView.setFitWidth(50);
+        warehouseIconView.setFitHeight(50);
+        warehouseIconView.setPreserveRatio(true);
+
+        warehouseRow.getChildren().addAll(warehouseIconView,warehouseButton);
+        warehouseRow.setAlignment(Pos.BOTTOM_CENTER);
+
+        VBox rightLayout = new VBox(10);
+        rightLayout.getChildren().addAll(customerRow, warehouseRow);
+        rightLayout.setAlignment(Pos.CENTER);
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
         HBox.setHgrow(rightLayout, Priority.ALWAYS);
