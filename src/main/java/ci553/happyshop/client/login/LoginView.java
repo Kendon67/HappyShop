@@ -1,9 +1,17 @@
 package ci553.happyshop.client.login;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.util.Objects;
 
@@ -16,7 +24,33 @@ public class LoginView {
         HBox root = new HBox();
 
         VBox leftLayout = new VBox();
-        leftLayout.setStyle("-fx-background-color: red;");
+        leftLayout.setStyle("-fx-background-color: #AF69EE;");
+
+        Text title = new Text("Happy Shop");
+        title.setFont(Font.font("Helvetica"));
+        title.setStyle("-fx-font-size: 20px;");
+
+        Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitWidth(100);
+        logoView.setFitHeight(100);
+        logoView.setPreserveRatio(true);
+
+        // create circular white border around the logo
+        Circle logoCircle = new Circle(50,50,50);
+        logoView.setClip(logoCircle);
+
+        Circle border = new Circle(50, 50, 50);
+        border.setStroke(javafx.scene.paint.Color.BLACK);
+        border.setStrokeWidth(2);
+        border.setFill(Color.WHITE);
+
+        StackPane circularLogo = new StackPane();
+        circularLogo.getChildren().addAll(border, logoView);
+
+        leftLayout.getChildren().addAll(title, circularLogo);
+        leftLayout.setAlignment(Pos.CENTER);
+
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
         // create buttons allowing user access to either part of the application
@@ -29,7 +63,7 @@ public class LoginView {
         });
 
 
-        VBox rightLayout = new VBox(10);
+        VBox rightLayout = new VBox();
         rightLayout.getChildren().addAll(customerButton, warehouseButton);
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
