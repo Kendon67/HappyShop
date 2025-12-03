@@ -28,6 +28,8 @@ public class LoginController {
     }
 
     public void userLogin(TextField username, TextField password) throws IOException {
-        loginModel.userLogin(username, password);
+        if (loginModel.userLogin(username, password)) {
+                openCustomerClient();
+        }
     }
 }
