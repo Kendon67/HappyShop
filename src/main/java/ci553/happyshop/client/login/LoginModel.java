@@ -2,21 +2,19 @@ package ci553.happyshop.client.login;
 
 import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class LoginModel {
-    String filePath = "src/main/resources/user.txt";
     LoginView loginView;
 
     public void userLogin(TextField username, TextField password) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream("user.txt");
+        System.out.println(getClass().getClassLoader().getResource("user.txt"));
         boolean userExist = false;
         try{
             String line;
             // create a reader for the lines, put line into list split by the ","
-            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length >= 2){
@@ -26,13 +24,14 @@ public class LoginModel {
                     String filePassword = values[1];
 
                     if  (fileUsername.equals(username.getText()) && filePassword.equals(password.getText())) {
+                        System.out.println("Login successful");
                         userExist = true;
                         break;
                     }
                 }
             }
             if (userExist) {
-                loginView.userLoginPage();
+                loginView.openCustomerClient();
             }
             else{
                 // inform user with error

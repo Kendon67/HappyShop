@@ -4,6 +4,7 @@ import ci553.happyshop.client.customer.*;
 
 import ci553.happyshop.client.emergency.EmergencyExit;
 import ci553.happyshop.client.login.LoginController;
+import ci553.happyshop.client.login.LoginModel;
 import ci553.happyshop.client.login.LoginView;
 import ci553.happyshop.client.orderTracker.OrderTracker;
 import ci553.happyshop.client.picker.PickerController;
@@ -76,9 +77,11 @@ public class Main extends Application {
     private void startLoginClient(){
         LoginController loginController = new LoginController();
         LoginView loginView = new LoginView();
+        LoginModel loginModel = new LoginModel();
 
         loginView.loginController = loginController;
         loginController.loginView = loginView;
+        loginController.loginModel = loginModel;
         loginView.startLogin(new Stage());
     }
 

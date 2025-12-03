@@ -28,6 +28,6 @@ public class LoginController {
     }
 
     public void userLogin(TextField username, TextField password) throws IOException {
-        register.
+        loginModel.userLogin(username, password);
     }
 }

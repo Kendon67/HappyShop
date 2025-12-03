@@ -118,7 +118,6 @@ public class LoginView {
         TextField passwordField = new TextField();
         passwordField.setPromptText("Card Number");
         passwordField.setStyle(UIStyle.textFiledStyle);
-
         userType = "customer";
 
         Button signUpButton = new Button("Sign Up");
@@ -131,7 +130,13 @@ public class LoginView {
         });
 
         Button loginButton = new Button("Login");
-        loginButton.setOnAction((event) -> {});
+        loginButton.setOnAction((event) -> {
+            try {
+                loginController.userLogin(usernameField,passwordField);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         VBox loginBox = new VBox();
         loginBox.setAlignment(Pos.CENTER);
@@ -139,5 +144,9 @@ public class LoginView {
 
         userloginWindow.setScene(new Scene(loginBox, 500, 500));
         userloginWindow.show();
+    }
+
+    public void openCustomerClient() throws IOException {
+        loginController.openCustomerClient();
     }
 }
