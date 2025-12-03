@@ -1,5 +1,6 @@
 package ci553.happyshop.client.login;
 
+import ci553.happyshop.utility.UIStyle;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,18 +9,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Objects;
 
 // Create Login Page GUI
 public class LoginView {
     public LoginController loginController;
+    private String userType;
 
-    public void startLogin(Stage loginWindow){
+    public void startLogin(Stage loginWindow) {
         loginWindow.setTitle("Login Page");
         HBox root = new HBox();
 
@@ -56,7 +58,8 @@ public class LoginView {
         HBox customerRow = new HBox(20);
 
         Button customerButton = new Button("Customer Login");
-        customerButton.setOnAction((event) -> {loginController.openCustomerClient();
+        customerButton.setOnAction((event) -> {
+            userLoginPage();
         });
 
         // user icon
@@ -66,13 +69,14 @@ public class LoginView {
         userIconView.setFitHeight(50);
         userIconView.setPreserveRatio(true);
 
-        customerRow.getChildren().addAll(userIconView,customerButton);
+        customerRow.getChildren().addAll(userIconView, customerButton);
         customerRow.setAlignment(Pos.TOP_CENTER);
 
         HBox warehouseRow = new HBox(20);
 
         Button warehouseButton = new Button("Warehouse Login");
-        warehouseButton.setOnAction((event) -> {loginController.openWarehouseClient();
+        warehouseButton.setOnAction((event) -> {
+            loginController.openWarehouseClient();
         });
         // warehouse Icon
         Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
@@ -81,7 +85,7 @@ public class LoginView {
         warehouseIconView.setFitHeight(50);
         warehouseIconView.setPreserveRatio(true);
 
-        warehouseRow.getChildren().addAll(warehouseIconView,warehouseButton);
+        warehouseRow.getChildren().addAll(warehouseIconView, warehouseButton);
         warehouseRow.setAlignment(Pos.CENTER);
 
         HBox managerRow = new HBox(20);
@@ -95,7 +99,7 @@ public class LoginView {
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
         HBox.setHgrow(rightLayout, Priority.ALWAYS);
-        root.getChildren().addAll(leftLayout,rightLayout);
+        root.getChildren().addAll(leftLayout, rightLayout);
 
         Scene scene = new Scene(root, 500, 500);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("style/login.css")).toExternalForm());
@@ -103,4 +107,37 @@ public class LoginView {
         loginWindow.show();
     }
 
+    public void userLoginPage() {
+        Stage userloginWindow = new Stage();
+        userloginWindow.setTitle("Pay");
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Cardholder Name");
+        usernameField.setStyle(UIStyle.textFiledStyle);
+
+        TextField passwordField = new TextField();
+        passwordField.setPromptText("Card Number");
+        passwordField.setStyle(UIStyle.textFiledStyle);
+
+        userType = "customer";
+
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.setOnAction((event) -> {
+            try {
+                loginController.createUser(usernameField,passwordField, userType);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button loginButton = new Button("Login");
+        loginButton.setOnAction((event) -> {});
+
+        VBox loginBox = new VBox();
+        loginBox.setAlignment(Pos.CENTER);
+        loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton);
+
+        userloginWindow.setScene(new Scene(loginBox, 500, 500));
+        userloginWindow.show();
+    }
 }

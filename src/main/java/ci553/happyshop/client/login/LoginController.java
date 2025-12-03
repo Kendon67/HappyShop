@@ -2,6 +2,7 @@ package ci553.happyshop.client.login;
 
 import ci553.happyshop.client.customer.CustomerView;
 import ci553.happyshop.client.warehouse.WarehouseView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.IOException;
 public class LoginController {
     public LoginModel loginModel;
     public LoginView loginView;
+    public UserRegister register = new UserRegister();
 
     public void openCustomerClient() {
         CustomerView customerView = new CustomerView();
@@ -21,12 +23,12 @@ public class LoginController {
         warehouseView.start(new Stage());
     }
 
-    public void doAction(String action) throws IOException {
-        switch (action) {
-            case "userLogin":
-                loginModel.userLogin();
-                break;
-        }
 
+    public void createUser(TextField username, TextField password, String userType) throws IOException {
+        register.createUser(username, password, userType);
+    }
+
+    public void userLogin(TextField username, TextField password) throws IOException {
+        loginModel.userLogin(username, password);
     }
 }
