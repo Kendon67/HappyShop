@@ -23,12 +23,11 @@ public class LoginController {
         warehouseView.start(new Stage());
     }
 
-
     public void createUser(TextField username, TextField password, String userType) throws IOException {
         register.createUser(username, password, userType);
     }
 
     public void userLogin(TextField username, TextField password) throws IOException {
-        loginModel.userLogin(username, password);
+        register.
     }
 }

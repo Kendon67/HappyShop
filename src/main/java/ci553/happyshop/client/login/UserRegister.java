@@ -18,7 +18,7 @@ public class UserRegister { ;
     public void createUser(TextField username, TextField password, String userType) throws IOException {
         // set filepath, write parameters to txt files with a new line
         FileWriter fw = new FileWriter(filePath);
-        fw.write("works!");
+        fw.write(username.getText() + "," + password.getText() + "," + userType);
         fw.close();
     }
 
