@@ -1,8 +1,12 @@
 package ci553.happyshop.client.customer;
 
+import ci553.happyshop.catalogue.Product;
+import ci553.happyshop.utility.StorageLocation;
 import ci553.happyshop.utility.UIStyle;
 import ci553.happyshop.utility.WinPosManager;
 import ci553.happyshop.utility.WindowBounds;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,7 +20,10 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -45,6 +52,10 @@ public class CustomerView  {
     private Label lbProductInfo;//product text info in searchPage
     private TextArea taTrolley; //in trolley Page
     private TextArea taReceipt;//in receipt page
+
+    //observable list for flexible product search
+    private ObservableList<Product> obeProductList;
+    protected ListView<Product> obrLvProducts;
 
     // Holds a reference to this CustomerView window for future access and management
     // (e.g., positioning the removeProductNotifier when needed).
@@ -102,6 +113,12 @@ public class CustomerView  {
         btnAddToTrolley.setOnAction(this::buttonClicked);
         HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
 
+        obeProductList = FXCollections.observableArrayList();
+        obrLvProducts = new ListView<>(obeProductList);
+        obrLvProducts.setPrefHeight(HEIGHT - 50);
+        obrLvProducts.setFixedCellSize(50);
+        obrLvProducts.setStyle(UIStyle.listViewStyle);
+
         ivProduct = new ImageView("imageHolder.jpg");
         ivProduct.setFitHeight(60);
         ivProduct.setFitWidth(60);
@@ -112,7 +129,7 @@ public class CustomerView  {
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
         lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
+        HBox hbSearchResult = new HBox(5, obrLvProducts);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
@@ -120,7 +137,59 @@ public class CustomerView  {
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
         vbSearchPage.setStyle("-fx-padding: 15px;");
 
+        // anonymous inner method
+        // formats items for search result box
+        obrLvProducts.setCellFactory(param -> new ListCell<Product>() {
+            @Override
+            protected void updateItem(Product product, boolean empty) {
+                super.updateItem(product, empty);
+
+                if(empty || product == null) {
+                    setGraphic(null);
+                    System.out.println("setCellFactory - Item is empty!");
+                } else{
+                    // build image URL for cell usage
+                    String imageName = product.getProductImageName();
+                    String imageURL = StorageLocation.imageFolder + imageName;
+                    Path imagePath  = Paths.get(imageURL).toAbsolutePath();
+                    String imageUri = imagePath.toUri().toString();
+
+                    ImageView ivPro;
+                    try{
+                        ivPro = new ImageView(new Image(imageUri, 50, 50, true, true ));
+                    }
+                    catch(Exception e){
+                        ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
+                    }
+
+                    Label laProToString = new Label(product.toString());
+                    HBox hbox = new HBox(10, ivPro, laProToString);
+                    setGraphic(hbox);
+                }
+            }
+        });
+
+        // click item in the list to 'select it' before adding to trolley
+        obrLvProducts.setOnMouseClicked(event -> {
+            try {
+                cusController.doAction("Select Item");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         return vbSearchPage;
+    }
+
+    //update the product listVew of serachPage
+    void updateObservableProductList( ArrayList<Product> productList) {
+        System.out.println("updateObservableProductList");
+        int proCounter = productList.size();
+        System.out.println(proCounter);
+        obeProductList.clear();
+        obeProductList.addAll(productList);
     }
 
     private VBox CreateTrolleyPage() {

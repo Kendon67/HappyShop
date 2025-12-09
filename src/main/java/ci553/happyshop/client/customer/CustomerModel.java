@@ -26,6 +26,7 @@ public class CustomerModel {
 
     private Product theProduct =null; // product found from search
     private ArrayList<Product> trolley =  new ArrayList<>(); // a list of products in trolley
+    private ArrayList<Product> productList = new ArrayList<>();
 
     // Four UI elements to be passed to CustomerView for display updates.
     private String imageName = "imageHolder.jpg";                // Image to show in product preview (Search Page)
@@ -36,8 +37,13 @@ public class CustomerModel {
     //SELECT productID, description, image, unitPrice,inStock quantity
     void search() throws SQLException {
         String productId = cusView.tfId.getText().trim();
+        String keyword = cusView.tfName.getText().trim();
         if(!productId.isEmpty()){
             theProduct = databaseRW.searchByProductId(productId); //search database
+            // Add product to the observable list
+            if(theProduct != null && theProduct.getStockQuantity() > 0){
+                productList.add(theProduct);
+            }
             if(theProduct != null && theProduct.getStockQuantity()>0){
                 double unitPrice = theProduct.getUnitPrice();
                 String description = theProduct.getProductDescription();
@@ -45,6 +51,7 @@ public class CustomerModel {
 
                 String baseInfo = String.format("Product_Id: %s\n%s,\nPrice: £%.2f", productId, description, unitPrice);
                 String quantityInfo = stock < 100 ? String.format("\n%d units left.", stock) : "";
+
                 displayLaSearchResult = baseInfo + quantityInfo;
                 System.out.println(displayLaSearchResult);
             }
@@ -53,11 +60,16 @@ public class CustomerModel {
                 displayLaSearchResult = "No Product was found with ID " + productId;
                 System.out.println("No Product was found with ID " + productId);
             }
-        }else{
+        }
+        else if(!keyword.isEmpty()){
+            productList = databaseRW.searchProduct(keyword);
+        }
+        else{
             theProduct=null;
             displayLaSearchResult = "Please type ProductID";
             System.out.println("Please type ProductID.");
         }
+        cusView.updateObservableProductList(productList);
         updateView();
     }
 
@@ -76,6 +88,17 @@ public class CustomerModel {
         }
         displayTaReceipt=""; // Clear receipt to switch back to trolleyPage (receipt shows only when not empty)
         updateView();
+    }
+
+    public Product selectItem(){
+        theProduct = cusView.obrLvProducts.getSelectionModel().getSelectedItem();
+        if (theProduct != null){
+            return theProduct;
+        }
+        else{
+            System.out.println("Please select a product before adding it to the trolley");
+            return null;
+        }
     }
 
     void organizeTrolley() {
