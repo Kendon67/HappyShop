@@ -5,7 +5,6 @@ import javafx.scene.control.TextField;
 import java.io.*;
 
 public class LoginModel {
-    public LoginView loginView;
 
     public boolean userLogin(TextField username, TextField password) {
         InputStream is = getClass().getClassLoader().getResourceAsStream("user.txt");

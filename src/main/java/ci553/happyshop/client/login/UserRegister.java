@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRegister { ;
-    private final String filePath =  "src/main/resources/user.txt\n";
+    private final String filePath =  "src/main/resources/user.txt";
 
     private void register() {
         }
@@ -22,7 +22,7 @@ public class UserRegister { ;
         fw.close();
     }
 
-    public void deleteUser(String username) throws IOException {
+    public void deleteUser(TextField username) throws IOException {
 
     }
 }

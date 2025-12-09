@@ -79,7 +79,7 @@ public class LoginView {
             loginController.openWarehouseClient();
         });
         // warehouse Icon
-        Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
+        Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("user_icon.png")));
         ImageView warehouseIconView = new ImageView(warehouseIcon);
         warehouseIconView.setFitWidth(50);
         warehouseIconView.setFitHeight(50);
@@ -109,15 +109,14 @@ public class LoginView {
 
     public void userLoginPage() {
         Stage userloginWindow = new Stage();
-        userloginWindow.setTitle("Pay");
+        userloginWindow.setTitle("Customer Login");
 
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Cardholder Name");
-        usernameField.setStyle(UIStyle.textFiledStyle);
+        usernameField.setPromptText("Username: ");
 
         TextField passwordField = new TextField();
-        passwordField.setPromptText("Card Number");
-        passwordField.setStyle(UIStyle.textFiledStyle);
+        passwordField.setPromptText("Password: ");
+
         userType = "customer";
 
         Button signUpButton = new Button("Sign Up");
@@ -142,7 +141,9 @@ public class LoginView {
         loginBox.setAlignment(Pos.CENTER);
         loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton);
 
-        userloginWindow.setScene(new Scene(loginBox, 500, 500));
+        Scene scene = new Scene(loginBox, 500, 500);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("style/login.css")).toExternalForm());
+        userloginWindow.setScene(scene);
         userloginWindow.show();
     }
 }
