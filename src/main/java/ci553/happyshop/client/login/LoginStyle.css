@@ -1,0 +1,11 @@
+.button {
+    -fx-background-color: purple;
+    -fx-color: white;
+    -fx-border-radius: 12px;
+}
+
+.text-field{
+    -fx-background-color: purple;
+    -fx-border-radius: 12px;
+    -fx-max-width: 20px;
+}

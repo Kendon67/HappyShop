@@ -75,6 +75,10 @@ public class CustomerModel {
 
     void addToTrolley(){
         if(theProduct!= null){
+
+            // trolley.add(theProduct) — Product is appended to the end of the trolley.
+            // To keep the trolley organized, add code here or call a method that:
+            trolley.add(theProduct);
             organizeTrolley();
             // Sort trolley in Asc by productId
             trolley.sort(
