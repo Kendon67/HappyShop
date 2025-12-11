@@ -1,8 +1,12 @@
 package ci553.happyshop.client.customer;
 
+import ci553.happyshop.catalogue.Product;
+import ci553.happyshop.utility.StorageLocation;
 import ci553.happyshop.utility.UIStyle;
 import ci553.happyshop.utility.WinPosManager;
 import ci553.happyshop.utility.WindowBounds;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,8 +25,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * The CustomerView is separated into two sections by a line :
@@ -51,6 +57,10 @@ public class CustomerView  {
     private Label lbProductInfo;//product text info in searchPage
     private TextArea taTrolley; //in trolley Page
     private TextArea taReceipt;//in receipt page
+
+    //observable list for flexible product search
+    private ObservableList<Product> obeProductList;
+    protected ListView<Product> obrLvProducts;
 
     // Holds a reference to this CustomerView window for future access and management
     // (e.g., positioning the removeProductNotifier when needed).
@@ -108,6 +118,12 @@ public class CustomerView  {
         btnAddToTrolley.setOnAction(this::buttonClicked);
         HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
 
+        obeProductList = FXCollections.observableArrayList();
+        obrLvProducts = new ListView<>(obeProductList);
+        obrLvProducts.setPrefHeight(HEIGHT - 50);
+        obrLvProducts.setFixedCellSize(50);
+        obrLvProducts.setStyle(UIStyle.listViewStyle);
+
         ivProduct = new ImageView("imageHolder.jpg");
         ivProduct.setFitHeight(60);
         ivProduct.setFitWidth(60);
@@ -118,7 +134,7 @@ public class CustomerView  {
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
         lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
+        HBox hbSearchResult = new HBox(5, obrLvProducts);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
@@ -126,7 +142,59 @@ public class CustomerView  {
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
         vbSearchPage.setStyle("-fx-padding: 15px;");
 
+        // anonymous inner method
+        // formats items for search result box
+        obrLvProducts.setCellFactory(param -> new ListCell<Product>() {
+            @Override
+            protected void updateItem(Product product, boolean empty) {
+                super.updateItem(product, empty);
+
+                if(empty || product == null) {
+                    setGraphic(null);
+                    System.out.println("setCellFactory - Item is empty!");
+                } else{
+                    // build image URL for cell usage
+                    String imageName = product.getProductImageName();
+                    String imageURL = StorageLocation.imageFolder + imageName;
+                    Path imagePath  = Paths.get(imageURL).toAbsolutePath();
+                    String imageUri = imagePath.toUri().toString();
+
+                    ImageView ivPro;
+                    try{
+                        ivPro = new ImageView(new Image(imageUri, 50, 50, true, true ));
+                    }
+                    catch(Exception e){
+                        ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
+                    }
+
+                    Label laProToString = new Label(product.toString());
+                    HBox hbox = new HBox(10, ivPro, laProToString);
+                    setGraphic(hbox);
+                }
+            }
+        });
+
+        // click item in the list to 'select it' before adding to trolley
+        obrLvProducts.setOnMouseClicked(event -> {
+            try {
+                cusController.doAction("Select Item");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         return vbSearchPage;
+    }
+
+    //update the product listVew of serachPage
+    void updateObservableProductList( ArrayList<Product> productList) {
+        System.out.println("updateObservableProductList");
+        int proCounter = productList.size();
+        System.out.println(proCounter);
+        obeProductList.clear();
+        obeProductList.addAll(productList);
     }
 
     private VBox CreateTrolleyPage() {
@@ -141,11 +209,11 @@ public class CustomerView  {
         btnCancel.setOnAction(this::buttonClicked);
         btnCancel.setStyle(UIStyle.buttonStyle);
 
-        Button btnCheckout = new Button("Check Out");
-        btnCheckout.setOnAction(this::buttonClicked);
-        btnCheckout.setStyle(UIStyle.buttonStyle);
+        Button btnPayment = new Button("Payment");
+        btnPayment.setOnAction(this::buttonClicked);
+        btnPayment.setStyle(UIStyle.buttonStyle);
 
-        HBox hbBtns = new HBox(10, btnCancel,btnCheckout);
+        HBox hbBtns = new HBox(10, btnCancel, btnPayment);
         hbBtns.setStyle("-fx-padding: 15px;");
         hbBtns.setAlignment(Pos.CENTER);
 
@@ -154,6 +222,134 @@ public class CustomerView  {
         vbTrolleyPage.setAlignment(Pos.TOP_CENTER);
         vbTrolleyPage.setStyle("-fx-padding: 15px;");
         return vbTrolleyPage;
+    }
+
+    // create a page allowing the user to enter payment details
+    // textfields within a VBOX to stack them
+
+    public void cardPaymentPage(){
+        Stage cardWindow = new Stage();
+        cardWindow.setTitle("Pay");
+
+        VBox cardBox = new VBox();
+        cardBox.setAlignment(Pos.CENTER);
+
+        TextField cardholderField = new TextField();
+        cardholderField.setPromptText("Cardholder Name");
+        cardholderField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cardNumField = new TextField();
+        cardNumField.setPromptText("Card Number");
+        cardNumField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cardExpiryField = new TextField();
+        cardExpiryField.setPromptText("Expiry Date");
+        cardExpiryField.setStyle(UIStyle.textFiledStyle);
+
+        TextField cvvField = new TextField();
+        cvvField.setPromptText("CVV");
+        cvvField.setStyle(UIStyle.textFiledStyle);
+
+        Button cashBtn = new Button("Pay in Cash");
+        cashBtn.setStyle(UIStyle.buttonStyle);
+        cashBtn.setOnAction(actionEvent1 -> {
+            try {
+                cashPaymentPage();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // get result of each textfield and pass them to controller for validation
+        Button submitBtn = new Button("Submit & Pay Card");
+        submitBtn.setStyle(UIStyle.buttonStyle);
+        submitBtn.setOnAction(actionEvent -> {
+            String cardHolder = cardholderField.getText();
+            String cardNum = cardNumField.getText();
+            String cardExpiry = cardExpiryField.getText();
+            String cvv = cvvField.getText();
+
+            cusController.passCardDetails(cardHolder, cardNum, cardExpiry, cvv);
+            try{
+                cusController.doAction("Submit & Pay Card");
+
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+            cardWindow.close();
+        });
+        cardBox.getChildren().addAll(cardholderField,cardNumField,cardExpiryField,
+                cvvField, cashBtn, submitBtn);
+        cardWindow.setResizable(false);
+        cardWindow.setWidth(WIDTH);
+        cardWindow.setHeight(HEIGHT);
+        cardWindow.setScene(new Scene(cardBox));
+        cardWindow.show();
+    }
+
+    public void cashPaymentPage() throws SQLException, IOException {
+        Stage cashWindow = new Stage();
+        cashWindow.setTitle("Cash Payment");
+
+        VBox cashBox = new VBox();
+        cashBox.setAlignment(Pos.CENTER);
+
+        TextField cashEntry = new TextField();
+        cashEntry.setPromptText("Enter Amount: ");
+        cashEntry.setStyle(UIStyle.textFiledStyle);
+        cashEntry.setPrefWidth(COLUMN_WIDTH);
+
+        Button submitBtn = new Button("Submit & Pay Cash");
+        submitBtn.setStyle(UIStyle.buttonStyle);
+
+        submitBtn.setOnAction(e -> {
+            double cashAmount = Double.parseDouble(cashEntry.getText());
+            try {
+                cusController.passCashDetails(cashAmount);
+            } catch (IOException | SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        cashBox.getChildren().addAll(cashEntry, submitBtn);
+        cashWindow.setScene(new Scene(cashBox));
+        cashWindow.show();
+    };
+
+    public void cardInvalid(){
+        Dialog<String> cardInvalidAlert = new Dialog<>();
+        cardInvalidAlert.setTitle("Card Invalid");
+        cardInvalidAlert.setHeaderText("Card Invalid");
+        cardInvalidAlert.setContentText("Please enter valid Card Details");
+        cardInvalidAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cardInvalidAlert.showAndWait();
+    }
+
+    public void forceCash(){
+        Dialog<String> cashOnlyAlert = new Dialog<>();
+        cashOnlyAlert.setTitle("Cash Only");
+        cashOnlyAlert.setContentText("Trolley is under £5, cash payment required.");
+        cashOnlyAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cashOnlyAlert.showAndWait();
+    }
+
+    public void paymentAccepted(double change){
+        Dialog<String> paymentAcceptedAlert = new Dialog<>();
+        paymentAcceptedAlert.setTitle("Payment Accepted");
+        paymentAcceptedAlert.setHeaderText("Payment has been accepted");
+        paymentAcceptedAlert.setContentText("Change: £" + change);
+        paymentAcceptedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        paymentAcceptedAlert.showAndWait();
+    };
+
+    public void cashFailed() {
+        Dialog<String> cashFailedAlert = new Dialog<>();
+        cashFailedAlert.setTitle("Payment Accepted");
+        cashFailedAlert.setHeaderText("Please enter a valid cash amount for this transaction.");
+        cashFailedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        cashFailedAlert.showAndWait();
     }
 
     private VBox createReceiptPage() {
