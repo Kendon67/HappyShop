@@ -3,9 +3,6 @@ package ci553.happyshop.client;
 import ci553.happyshop.client.customer.*;
 
 import ci553.happyshop.client.emergency.EmergencyExit;
-import ci553.happyshop.client.login.LoginController;
-import ci553.happyshop.client.login.LoginModel;
-import ci553.happyshop.client.login.LoginView;
 import ci553.happyshop.client.orderTracker.OrderTracker;
 import ci553.happyshop.client.picker.PickerController;
 import ci553.happyshop.client.picker.PickerModel;
@@ -45,21 +42,20 @@ public class Main extends Application {
     //starts the system
     @Override
     public void start(Stage window) throws IOException {
-        startLoginClient();
-//        startCustomerClient();
-//        startPickerClient();
-//        startOrderTracker();
-//
-//        startCustomerClient();
-//        startPickerClient();
-//        startOrderTracker();
-//
-//        // Initializes the order map for the OrderHub. This must be called after starting the observer clients
-//        // (such as OrderTracker and Picker clients) to ensure they are properly registered for receiving updates.
-//        initializeOrderMap();
-//
-//        startWarehouseClient();
-//        startWarehouseClient();
+        startCustomerClient();
+        startPickerClient();
+        startOrderTracker();
+
+        startCustomerClient();
+        startPickerClient();
+        startOrderTracker();
+
+        // Initializes the order map for the OrderHub. This must be called after starting the observer clients
+        // (such as OrderTracker and Picker clients) to ensure they are properly registered for receiving updates.
+        initializeOrderMap();
+
+        startWarehouseClient();
+        startWarehouseClient();
 
         startEmergencyExit();
     }
@@ -73,18 +69,6 @@ public class Main extends Application {
      * Also creates the RemoveProductNotifier, which tracks the position of the Customer View
      * and is triggered by the Customer Model when needed.
      */
-
-    private void startLoginClient(){
-        LoginController loginController = new LoginController();
-        LoginView loginView = new LoginView();
-        LoginModel loginModel = new LoginModel();
-
-        loginView.loginController = loginController;
-        loginController.loginView = loginView;
-        loginController.loginModel = loginModel;
-        loginView.startLogin(new Stage());
-    }
-
     private void startCustomerClient(){
         CustomerView cusView = new CustomerView();
         CustomerController cusController = new CustomerController();
