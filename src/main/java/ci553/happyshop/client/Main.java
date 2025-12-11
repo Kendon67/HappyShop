@@ -79,7 +79,6 @@ public class Main extends Application {
         LoginView loginView = new LoginView();
         LoginModel loginModel = new LoginModel();
 
-        loginModel.loginView = loginView;
         loginView.loginController = loginController;
         loginController.loginView = loginView;
         loginController.loginModel = loginModel;

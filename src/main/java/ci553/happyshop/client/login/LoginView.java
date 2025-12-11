@@ -137,9 +137,19 @@ public class LoginView {
             }
         });
 
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction((event) -> {
+            try{
+                startLogin(userloginWindow);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
         VBox loginBox = new VBox();
         loginBox.setAlignment(Pos.CENTER);
-        loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton);
+        loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton, cancelButton);
 
         Scene scene = new Scene(loginBox, 500, 500);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("style/login.css")).toExternalForm());
