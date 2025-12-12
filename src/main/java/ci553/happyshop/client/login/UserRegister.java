@@ -23,6 +23,5 @@ public class UserRegister { ;
     }
 
     public void deleteUser(TextField username) throws IOException {
-
     }
 }
