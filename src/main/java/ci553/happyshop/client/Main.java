@@ -46,21 +46,6 @@ public class Main extends Application {
     @Override
     public void start(Stage window) throws IOException {
         startLoginClient();
-//        startCustomerClient();
-//        startPickerClient();
-//        startOrderTracker();
-//
-//        startCustomerClient();
-//        startPickerClient();
-//        startOrderTracker();
-//
-//        // Initializes the order map for the OrderHub. This must be called after starting the observer clients
-//        // (such as OrderTracker and Picker clients) to ensure they are properly registered for receiving updates.
-//        initializeOrderMap();
-//
-//        startWarehouseClient();
-//        startWarehouseClient();
-
         startEmergencyExit();
     }
 
@@ -78,14 +63,18 @@ public class Main extends Application {
         LoginController loginController = new LoginController();
         LoginView loginView = new LoginView();
         LoginModel loginModel = new LoginModel();
+        MainController mainController = new MainController();
 
         loginView.loginController = loginController;
         loginController.loginView = loginView;
         loginController.loginModel = loginModel;
+        loginController.mainController = mainController;
+        mainController.main = this;
+
         loginView.startLogin(new Stage());
     }
 
-    private void startCustomerClient(){
+    protected void startCustomerClient(){
         CustomerView cusView = new CustomerView();
         CustomerController cusController = new CustomerController();
         CustomerModel cusModel = new CustomerModel();
@@ -113,7 +102,7 @@ public class Main extends Application {
      *
      * Also registers the PickerModel with the OrderHub to receive order notifications.
      */
-    private void startPickerClient(){
+    protected void startPickerClient(){
         PickerModel pickerModel = new PickerModel();
         PickerView pickerView = new PickerView();
         PickerController pickerController = new PickerController();
@@ -127,13 +116,13 @@ public class Main extends Application {
     //The OrderTracker GUI - for customer to track their order's state(Ordered, Progressing, Collected)
     //This client is simple and does not follow the MVC pattern, as it only registers with the OrderHub
     //to receive order status notifications. All logic is handled internally within the OrderTracker.
-    private void startOrderTracker(){
+    protected void startOrderTracker(){
         OrderTracker orderTracker = new OrderTracker();
         orderTracker.registerWithOrderHub();
     }
 
     //initialize the orderMap<orderId, orderState> for OrderHub during system startup
-    private void initializeOrderMap(){
+    protected void initializeOrderMap(){
         OrderHub orderHub = OrderHub.getOrderHub();
         orderHub.initializeOrderMap();
     }
@@ -147,7 +136,7 @@ public class Main extends Application {
      * which track the position of the Warehouse window and are triggered by the Model when needed.
      * These components are linked after launching the Warehouse interface.
      */
-    private void startWarehouseClient(){
+    protected void startWarehouseClient(){
         WarehouseView view = new WarehouseView();
         WarehouseController controller = new WarehouseController();
         WarehouseModel model = new WarehouseModel();
@@ -172,7 +161,7 @@ public class Main extends Application {
     }
 
     //starts the EmergencyExit GUI, - used to close the entire application immediatelly
-    private void startEmergencyExit(){
+    protected void startEmergencyExit(){
         EmergencyExit.getEmergencyExit();
     }
 }

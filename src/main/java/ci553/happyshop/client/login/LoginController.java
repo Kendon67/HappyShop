@@ -1,5 +1,6 @@
 package ci553.happyshop.client.login;
 
+import ci553.happyshop.client.MainController;
 import ci553.happyshop.client.customer.CustomerView;
 import ci553.happyshop.client.warehouse.WarehouseView;
 import javafx.scene.control.TextField;
@@ -12,15 +13,14 @@ public class LoginController {
     public LoginModel loginModel;
     public LoginView loginView;
     public UserRegister register = new UserRegister();
+    public MainController mainController;
 
     public void openCustomerClient() {
-        CustomerView customerView = new CustomerView();
-        customerView.start(new Stage());
+        mainController.doCustomerClient();
     };
 
     public void openWarehouseClient(){
-        WarehouseView warehouseView = new WarehouseView();
-        warehouseView.start(new Stage());
+        mainController.doWarehouseClient();
     }
 
     public void createUser(TextField username, TextField password, String userType) throws IOException {
