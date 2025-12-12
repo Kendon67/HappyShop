@@ -37,7 +37,7 @@ public class LoginView {
 
         Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
         ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(circleRadius * 2 * 0.9); // 90% of circle diameter
+        logoView.setFitWidth(circleRadius * 2 * 0.9);
         logoView.setFitHeight(circleRadius * 2 * 0.9);
         logoView.setPreserveRatio(true);
         logoView.setClip(logoCircle);
@@ -114,7 +114,7 @@ public class LoginView {
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username: ");
 
-        TextField passwordField = new TextField();
+        PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password: ");
 
         userType = "customer";
