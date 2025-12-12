@@ -1,12 +1,22 @@
-.button {
-    -fx-background-color: purple;
-    -fx-color: white;
-    -fx-border-radius: 12px;
+.root {
+    -fx-font-family: Helvetica;
+    -fx-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
 }
 
-.text-field{
-    -fx-background-color: purple;
-    -fx-border-radius: 12px;
-    -fx-max-width: 20px;
+#title {
+    -fx-fill: white;
+}
 
+.button {
+    -fx-background-color: #AF69EE;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-font-size: 14px;
+}
+
+#leftLayout {
+    -fx-background-color: #AF69EE;
 }
