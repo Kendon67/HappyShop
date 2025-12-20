@@ -14,7 +14,7 @@ public class UserRegister { ;
     private void register() {
         }
 
-    // Method to add the user to file
+    // add the user to file
     public void createUser(TextField username, TextField password, String userType) throws IOException {
         // set filepath, write parameters to txt files with a new line
         FileWriter fw = new FileWriter(filePath);

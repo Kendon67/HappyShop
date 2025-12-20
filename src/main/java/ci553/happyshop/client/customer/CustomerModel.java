@@ -22,7 +22,7 @@ public class CustomerModel {
     public CustomerCard cusCard;
     public CustomerView cusView;
     public DatabaseRW databaseRW; //Interface type, not specific implementation
-                                  //Benefits: Flexibility: Easily change the database implementation.
+    //Benefits: Flexibility: Easily change the database implementation.
 
     private Product theProduct =null; // product found from search
     private ArrayList<Product> trolley =  new ArrayList<>(); // a list of products in trolley
@@ -103,11 +103,12 @@ public class CustomerModel {
 
     void organizeTrolley() {
         /* iterate through trolley and check if item in trolley is same as current product
-        * add the item quantities
+         * add the item quantities
          */
         for (Product pr : trolley) {
             if (pr.getProductId().equals(theProduct.getProductId())) {
                 pr.setOrderedQuantity(pr.getOrderedQuantity() + theProduct.getOrderedQuantity());
+
                 return;
             }
         }
@@ -120,6 +121,7 @@ public class CustomerModel {
                 theProduct.getOrderedQuantity());
         trolley.add(newPr);
     }
+
     void checkOut() throws IOException, SQLException {
         if(!trolley.isEmpty()){
             // Group the products in the trolley by productId to optimize stock checking
@@ -130,8 +132,9 @@ public class CustomerModel {
             ArrayList<Product> groupedTrolley= groupProductsById(trolley);
             ArrayList<Product> insufficientProducts= databaseRW.purchaseStocks(groupedTrolley);
 
-            if(insufficientProducts.isEmpty()){ // If stock is sufficient for all products
-                //get OrderHub and tell it to make a new Order
+            if(insufficientProducts.isEmpty()){//get OrderHub and tell it to make a new Order
+                cashOnlyCheck();
+                // If stock is sufficient for all products
                 OrderHub orderHub =OrderHub.getOrderHub();
                 Order theOrder = orderHub.newOrder(trolley);
                 trolley.clear();
@@ -154,12 +157,14 @@ public class CustomerModel {
                 }
                 theProduct=null;
 
-                //TODO
-                // Add the following logic here:
-                // 1. Remove products with insufficient stock from the trolley.
-                // 2. Trigger a message window to notify the customer about the insufficient stock, rather than directly changing displayLaSearchResult.
-                //You can use the provided RemoveProductNotifier class and its showRemovalMsg method for this purpose.
-                //remember close the message window where appropriate (using method closeNotifierWindow() of RemoveProductNotifier class)
+                // notify user if product out of stock
+                RemoveProductNotifier removeProductNotifier = new RemoveProductNotifier();
+                removeProductNotifier.cusView = cusView;
+                for (Product p : insufficientProducts) {
+                    trolley.removeIf(trolleyProduct -> trolleyProduct.getProductId().equals(p.getProductId()));
+                }
+                removeProductNotifier.showRemovalMsg(errorMsg.toString());
+
                 displayLaSearchResult = "Checkout failed due to insufficient stock for the following products:\n" + errorMsg.toString();
                 System.out.println("stock is not enough");
             }
@@ -172,8 +177,8 @@ public class CustomerModel {
     }
 
     /* check if trolley is under £5
-    *  if so alert user and force cash screen
-    * otherwise continue to card payment */
+     *  if so alert user and force cash screen
+     * otherwise continue to card payment */
     void cashOnlyCheck () throws SQLException, IOException {
         double totalPrice = 0;
         for (Product pr : trolley) {
@@ -195,7 +200,6 @@ public class CustomerModel {
         cardValidated = cusCard.validate();
         if (cardValidated) {
             cusView.paymentAccepted(0);
-            checkOut();
         }
         else{
             cusView.cardInvalid();
@@ -211,7 +215,6 @@ public class CustomerModel {
         if (cashAmount > 0 &&  cashAmount >= totalPrice) {
             double change =  cashAmount - totalPrice;
             cusView.paymentAccepted(change);
-            checkOut();
         }
         else{
             cusView.cashFailed();
@@ -231,8 +234,10 @@ public class CustomerModel {
                 existing.setOrderedQuantity(existing.getOrderedQuantity() + p.getOrderedQuantity());
             } else {
                 // Make a shallow copy to avoid modifying the original
-                grouped.put(id,new Product(p.getProductId(),p.getProductDescription(),
-                        p.getProductImageName(),p.getUnitPrice(),p.getStockQuantity()));
+                Product newPr = new Product(p.getProductId(),p.getProductDescription(),
+                        p.getProductImageName(),p.getUnitPrice(),p.getStockQuantity());
+                newPr.setOrderedQuantity(p.getOrderedQuantity());
+                grouped.put(id, newPr);
             }
         }
         return new ArrayList<>(grouped.values());
@@ -261,9 +266,9 @@ public class CustomerModel {
         }
         cusView.update(imageName, displayLaSearchResult, displayTaTrolley,displayTaReceipt);
     }
-     // extra notes:
-     //Path.toUri(): Converts a Path object (a file or a directory path) to a URI object.
-     //File.toURI(): Converts a File object (a file on the filesystem) to a URI object
+    // extra notes:
+    //Path.toUri(): Converts a Path object (a file or a directory path) to a URI object.
+    //File.toURI(): Converts a File object (a file on the filesystem) to a URI object
 
     //for test only
     public ArrayList<Product> getTrolley() {
