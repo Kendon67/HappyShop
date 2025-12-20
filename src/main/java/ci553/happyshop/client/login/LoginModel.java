@@ -11,7 +11,7 @@ public class LoginModel {
         System.out.println(getClass().getClassLoader().getResource("user.txt"));
         try{
             String line;
-            // create a reader for the lines, put line into list split by the ","
+            // create a reader for the lines
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
