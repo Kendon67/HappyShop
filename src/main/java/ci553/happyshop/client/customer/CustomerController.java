@@ -21,14 +21,11 @@ public class CustomerController {
             case "Cancel":
                 cusModel.cancel();
                 break;
-            case "Check Out":
-                cusModel.checkOut();
-                break;
             case "OK & Close":
                 cusModel.closeReceipt();
                 break;
             case "Payment":
-                cusModel.cashOnlyCheck();
+                cusModel.checkOut();
                 break;
             case "Submit & Pay Card":
                 cusModel.payCard();

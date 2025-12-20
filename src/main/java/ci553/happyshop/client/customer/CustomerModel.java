@@ -123,10 +123,6 @@ public class CustomerModel {
     }
 
     void checkOut() throws IOException, SQLException {
-        for (Product p:trolley){
-            System.out.println("dsaaaa" + p.getStockQuantity());
-            System.out.println("dsa" + p.getOrderedQuantity());
-        }
         if(!trolley.isEmpty()){
             // Group the products in the trolley by productId to optimize stock checking
             // Check the database for sufficient stock for all products in the trolley.
@@ -136,8 +132,9 @@ public class CustomerModel {
             ArrayList<Product> groupedTrolley= groupProductsById(trolley);
             ArrayList<Product> insufficientProducts= databaseRW.purchaseStocks(groupedTrolley);
 
-            if(insufficientProducts.isEmpty()){ // If stock is sufficient for all products
-                //get OrderHub and tell it to make a new Order
+            if(insufficientProducts.isEmpty()){//get OrderHub and tell it to make a new Order
+                cashOnlyCheck();
+                // If stock is sufficient for all products
                 OrderHub orderHub =OrderHub.getOrderHub();
                 Order theOrder = orderHub.newOrder(trolley);
                 trolley.clear();
@@ -160,12 +157,7 @@ public class CustomerModel {
                 }
                 theProduct=null;
 
-                //TODO
-                // Add the following logic here:
-                // 1. Remove products with insufficient stock from the trolley.
-                // 2. Trigger a message window to notify the customer about the insufficient stock, rather than directly changing displayLaSearchResult.
-                //You can use the provided RemoveProductNotifier class and its showRemovalMsg method for this purpose.
-                //remember close the message window where appropriate (using method closeNotifierWindow() of RemoveProductNotifier class
+                // notify user if product out of stock
                 RemoveProductNotifier removeProductNotifier = new RemoveProductNotifier();
                 removeProductNotifier.cusView = cusView;
                 for (Product p : insufficientProducts) {
@@ -207,7 +199,6 @@ public class CustomerModel {
         // validate details in customer card, run checkout if valid
         cardValidated = cusCard.validate();
         if (cardValidated) {
-            checkOut();
             cusView.paymentAccepted(0);
         }
         else{
@@ -222,7 +213,6 @@ public class CustomerModel {
             totalPrice += pr.getOrderedQuantity() * pr.getUnitPrice();
         }
         if (cashAmount > 0 &&  cashAmount >= totalPrice) {
-            checkOut();
             double change =  cashAmount - totalPrice;
             cusView.paymentAccepted(change);
         }
