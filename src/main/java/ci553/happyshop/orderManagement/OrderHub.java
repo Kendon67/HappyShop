@@ -65,6 +65,7 @@ public class OrderHub  {
      *   but collected orders are shown for a limited time (10 seconds).
      * - PickerModels will be notified only of orders in the "ordered" or "progressing" states, filtering out collected orders.
      */
+    private ArrayList<PickerModel> pickerModelList = new ArrayList<>();
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -111,11 +112,20 @@ public class OrderHub  {
         pcs.firePropertyChange("orderMap", null, orderMap);
     }
 
-    public void notifyPickerModels() {
-        TreeMap<Integer, OrderState> pickerOrderMap = new TreeMap<>();
-        pickerOrderMap.putAll(filterOrdersByState(OrderState.Ordered));
-        pickerOrderMap.putAll(filterOrdersByState(OrderState.Progressing));
-        pcs.firePropertyChange("pickerOrderMap", null, pickerOrderMap);
+    public void registerPickerModel(PickerModel pickerModel){
+        pickerModelList.add(pickerModel);
+    }
+
+    //notify all pickers to show orderMap (only ordered and progressing states orders)
+    public void notifyPickerModels(){
+        TreeMap<Integer,OrderState> orderMapForPicker = new TreeMap<>();
+        progressingOrderMap = filterOrdersByState(OrderState.Progressing);
+        OrderedOrderMap = filterOrdersByState(OrderState.Ordered);
+        orderMapForPicker.putAll(progressingOrderMap);
+        orderMapForPicker.putAll(OrderedOrderMap);
+        for(PickerModel pickerModel : pickerModelList){
+            pickerModel.setOrderMap(orderMapForPicker);
+        }
     }
 
     // Filters orderMap that match the specified state, a helper class used by notifyPickerModel()
