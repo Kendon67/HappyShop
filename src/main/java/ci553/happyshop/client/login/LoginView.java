@@ -35,7 +35,7 @@ public class LoginView {
         double circleRadius = 70;
         Circle logoCircle = new Circle(circleRadius, circleRadius, circleRadius);
 
-        Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imageHolder.jpg")));
+        Image logo = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("shop_logo.png")));
         ImageView logoView = new ImageView(logo);
         logoView.setFitWidth(circleRadius * 2 * 0.9);
         logoView.setFitHeight(circleRadius * 2 * 0.9);
@@ -63,7 +63,7 @@ public class LoginView {
         });
 
         // user icon
-        Image userIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imageHolder.jpg")));
+        Image userIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("user_icon.png")));
         ImageView userIconView = new ImageView(userIcon);
         userIconView.setFitWidth(50);
         userIconView.setFitHeight(50);
@@ -79,7 +79,7 @@ public class LoginView {
             loginController.openWarehouseClient();
         });
         // warehouse Icon
-        Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imageHolder.jpg")));
+        Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
         ImageView warehouseIconView = new ImageView(warehouseIcon);
         warehouseIconView.setFitWidth(50);
         warehouseIconView.setFitHeight(50);
