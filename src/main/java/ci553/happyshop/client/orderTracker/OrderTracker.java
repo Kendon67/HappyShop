@@ -1,6 +1,5 @@
 package ci553.happyshop.client.orderTracker;
 
-import ci553.happyshop.catalogue.Order;
 import ci553.happyshop.orderManagement.OrderHub;
 import ci553.happyshop.orderManagement.OrderState;
 import ci553.happyshop.utility.UIStyle;
@@ -59,8 +58,9 @@ public class OrderTracker implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
+        TreeMap<Integer,OrderState> updatedMap = (TreeMap<Integer,OrderState>) evt.getNewValue();
+        setOrderMap(updatedMap);
     }
-
 
     /**
      * Sets the order map with new data and refreshes the display.
