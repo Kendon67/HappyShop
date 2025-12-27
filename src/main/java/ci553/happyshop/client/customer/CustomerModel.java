@@ -118,7 +118,7 @@ public class CustomerModel {
                 theProduct.getProductDescription(),
                 theProduct.getProductImageName(),
                 theProduct.getUnitPrice(),
-                theProduct.getOrderedQuantity());
+                theProduct.getStockQuantity());
         trolley.add(newPr);
     }
 
@@ -222,11 +222,10 @@ public class CustomerModel {
     }
 
     public void setSearchItemQuantity(int quantity) {
-        selectItem();
+        Product selectedItem = selectItem();
         System.out.println(quantity);
-        if (quantity > 1){
-            System.out.println("Product for quantity check" + theProduct);
-            // add however many items to the trolley, wont need to be called unless quantity > 1 anyway
+        if (selectedItem != null && quantity > 0) {
+            selectedItem.setOrderedQuantity(quantity);
         }
     }
 
