@@ -221,6 +221,15 @@ public class CustomerModel {
         };
     }
 
+    public void setSearchItemQuantity(int quantity) {
+        selectItem();
+        System.out.println(quantity);
+        if (quantity > 1){
+            System.out.println("Product for quantity check" + theProduct);
+            // add however many items to the trolley, wont need to be called unless quantity > 1 anyway
+        }
+    }
+
     /**
      * Groups products by their productId to optimize database queries and updates.
      * By grouping products, we can check the stock for a given `productId` once, rather than repeatedly

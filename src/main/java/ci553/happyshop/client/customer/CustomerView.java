@@ -113,13 +113,6 @@ public class CustomerView  {
         btnAddToTrolley.setOnAction(this::buttonClicked);
         HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
 
-        // box for item level control
-        ComboBox<Integer> quantitySelect  = new ComboBox<>();
-        for (int i = 0; i < 10; i++) {
-            quantitySelect.getItems().add(i);
-        }
-        quantitySelect.setValue(1);
-
         obeProductList = FXCollections.observableArrayList();
         obrLvProducts = new ListView<>(obeProductList);
         obrLvProducts.setPrefHeight(HEIGHT - 50);
@@ -136,7 +129,7 @@ public class CustomerView  {
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
         lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, obrLvProducts, quantitySelect);
+        HBox hbSearchResult = new HBox(5, obrLvProducts);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
@@ -169,8 +162,20 @@ public class CustomerView  {
                         ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
                     }
 
+                    // box for item level control
+                    // calls controller to update quantity when selected
+                    ComboBox<Integer> quantitySelect  = new ComboBox<>();
+                    for (int i = 0; i < 10; i++) {
+                        quantitySelect.getItems().add(i);
+                    }
+                    quantitySelect.setValue(1);
+
+                    quantitySelect.setOnAction(event -> {
+                        cusController.setQuantity(quantitySelect.getValue());
+                    });
+
                     Label laProToString = new Label(product.toString());
-                    HBox hbox = new HBox(10, ivPro, laProToString);
+                    HBox hbox = new HBox(10, ivPro, laProToString, quantitySelect);
                     setGraphic(hbox);
                 }
             }

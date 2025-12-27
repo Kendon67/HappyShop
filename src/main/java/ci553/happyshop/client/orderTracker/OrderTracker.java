@@ -62,7 +62,7 @@ public class OrderTracker implements PropertyChangeListener {
 
     public void registerWithOrderHub(){
         OrderHub orderHub = OrderHub.getOrderHub();
-        orderHub.addObserver(this); // register tracker instance with the orderhub
+        orderHub.addObserver(this); // register tracker instance with the order hub
     }
 
 

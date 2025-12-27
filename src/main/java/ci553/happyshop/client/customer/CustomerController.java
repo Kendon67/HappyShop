@@ -33,6 +33,10 @@ public class CustomerController {
         }
     }
 
+    public void setQuantity(int quantity) {
+        cusModel.setSearchItemQuantity(quantity);
+    }
+
     public void passCardDetails(String cardHolder, String cardNum, String cardExpiry, String cvv) {
         cusCard.recieveDetails(cardHolder, cardNum, cardExpiry, cvv);
     }
