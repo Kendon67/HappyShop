@@ -111,24 +111,12 @@ public class OrderHub  {
         pcs.firePropertyChange("orderMap", null, orderMap);
     }
 
-//     //Notifies all registered observer_OrderTrackers to update and display the latest orderMap.
-//    public void notifyOrderTrackers(){
-//        for(OrderTracker orderTracker : orderTrackerList){
-//            orderTracker.setOrderMap(orderMap);
-//        }
-//    }
-
-//    //notify all pickers to show orderMap (only ordered and progressing states orders)
-//    public void notifyPickerModels(){
-//        TreeMap<Integer,OrderState> orderMapForPicker = new TreeMap<>();
-//        progressingOrderMap = filterOrdersByState(OrderState.Progressing);
-//        OrderedOrderMap = filterOrdersByState(OrderState.Ordered);
-//        orderMapForPicker.putAll(progressingOrderMap);
-//        orderMapForPicker.putAll(OrderedOrderMap);
-//        for(PickerModel pickerModel : pickerModelList){
-//            pickerModel.setOrderMap(orderMapForPicker);
-//        }
-//    }
+    public void notifyPickerModels() {
+        TreeMap<Integer, OrderState> pickerOrderMap = new TreeMap<>();
+        pickerOrderMap.putAll(filterOrdersByState(OrderState.Progressing));
+        pickerOrderMap.putAll(filterOrdersByState(OrderState.Ordered));
+        pcs.firePropertyChange("pickerOrderMap", null, pickerOrderMap);
+    }
 
     // Filters orderMap that match the specified state, a helper class used by notifyPickerModel()
     private TreeMap<Integer, OrderState> filterOrdersByState(OrderState state) {
