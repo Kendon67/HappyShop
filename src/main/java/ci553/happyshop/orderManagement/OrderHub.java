@@ -2,15 +2,12 @@ package ci553.happyshop.orderManagement;
 
 import ci553.happyshop.catalogue.Order;
 import ci553.happyshop.catalogue.Product;
-import ci553.happyshop.client.orderTracker.OrderTracker;
 import ci553.happyshop.client.picker.PickerModel;
 import ci553.happyshop.storageAccess.OrderFileManager;
 import ci553.happyshop.utility.StorageLocation;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observer;
-import java.util.Observable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -167,7 +164,6 @@ public class OrderHub  {
 
     /**
      * Removes collected orders from the system after they have been collected for 10 seconds.
-     *
      * This ensures that collected orders are cleared from the active order pool and are no longer displayed
      * by the OrderTracker after the brief period. This keeps the system focused on orders in the
      * "ordered" and "progressing" states.
