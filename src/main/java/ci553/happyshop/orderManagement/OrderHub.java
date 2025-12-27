@@ -7,6 +7,7 @@ import ci553.happyshop.client.picker.PickerModel;
 import ci553.happyshop.storageAccess.OrderFileManager;
 import ci553.happyshop.utility.StorageLocation;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Observer;
 import java.util.Observable;
@@ -64,8 +65,6 @@ public class OrderHub  {
      *   but collected orders are shown for a limited time (10 seconds).
      * - PickerModels will be notified only of orders in the "ordered" or "progressing" states, filtering out collected orders.
      */
-    private ArrayList<OrderTracker> orderTrackerList = new ArrayList<>();
-    private ArrayList<PickerModel> pickerModelList = new ArrayList<>();
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -100,33 +99,36 @@ public class OrderHub  {
         return theOrder;
     }
 
-    //Registers an OrderTracker to receive updates about changes.
-    public void registerOrderTracker(OrderTracker orderTracker){
-        orderTrackerList.add(orderTracker);
-    }
-     //Notifies all registered observer_OrderTrackers to update and display the latest orderMap.
-    public void notifyOrderTrackers(){
-        for(OrderTracker orderTracker : orderTrackerList){
-            orderTracker.setOrderMap(orderMap);
-        }
+    public void addObserver(PropertyChangeListener observer) {
+        pcs.addPropertyChangeListener(observer);
     }
 
-    //Registers a PickerModel to receive updates about changes.
-    public void registerPickerModel(PickerModel pickerModel){
-        pickerModelList.add(pickerModel);
+    public void removeObserver(PropertyChangeListener observer) {
+        pcs.removePropertyChangeListener(observer);
     }
 
-    //notify all pickers to show orderMap (only ordered and progressing states orders)
-    public void notifyPickerModels(){
-        TreeMap<Integer,OrderState> orderMapForPicker = new TreeMap<>();
-        progressingOrderMap = filterOrdersByState(OrderState.Progressing);
-        OrderedOrderMap = filterOrdersByState(OrderState.Ordered);
-        orderMapForPicker.putAll(progressingOrderMap);
-        orderMapForPicker.putAll(OrderedOrderMap);
-        for(PickerModel pickerModel : pickerModelList){
-            pickerModel.setOrderMap(orderMapForPicker);
-        }
+    public void notifyOrderTrackers() {
+        pcs.firePropertyChange("orderMap", null, orderMap);
     }
+
+//     //Notifies all registered observer_OrderTrackers to update and display the latest orderMap.
+//    public void notifyOrderTrackers(){
+//        for(OrderTracker orderTracker : orderTrackerList){
+//            orderTracker.setOrderMap(orderMap);
+//        }
+//    }
+
+//    //notify all pickers to show orderMap (only ordered and progressing states orders)
+//    public void notifyPickerModels(){
+//        TreeMap<Integer,OrderState> orderMapForPicker = new TreeMap<>();
+//        progressingOrderMap = filterOrdersByState(OrderState.Progressing);
+//        OrderedOrderMap = filterOrdersByState(OrderState.Ordered);
+//        orderMapForPicker.putAll(progressingOrderMap);
+//        orderMapForPicker.putAll(OrderedOrderMap);
+//        for(PickerModel pickerModel : pickerModelList){
+//            pickerModel.setOrderMap(orderMapForPicker);
+//        }
+//    }
 
     // Filters orderMap that match the specified state, a helper class used by notifyPickerModel()
     private TreeMap<Integer, OrderState> filterOrdersByState(OrderState state) {
