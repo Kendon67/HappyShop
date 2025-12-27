@@ -96,7 +96,7 @@ public class OrderHub  {
         orderMap.put(orderId, theOrder.getState()); //add the order to orderMap,state is Ordered initially
         notifyOrderTrackers(); //notify OrderTrackers
         notifyPickerModels();//notify pickers
-        
+
         return theOrder;
     }
 
@@ -111,6 +111,7 @@ public class OrderHub  {
     public void notifyOrderTrackers() {
         pcs.firePropertyChange("orderMap", null, orderMap);
     }
+
 
     public void registerPickerModel(PickerModel pickerModel){
         pickerModelList.add(pickerModel);
@@ -127,6 +128,7 @@ public class OrderHub  {
             pickerModel.setOrderMap(orderMapForPicker);
         }
     }
+
 
     // Filters orderMap that match the specified state, a helper class used by notifyPickerModel()
     private TreeMap<Integer, OrderState> filterOrdersByState(OrderState state) {
