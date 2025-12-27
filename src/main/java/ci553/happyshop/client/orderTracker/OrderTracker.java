@@ -33,8 +33,6 @@ public class OrderTracker implements PropertyChangeListener {
 
      //Constructor initializes the UI, a title Label, and a TextArea for displaying the order details.
     public OrderTracker() {
-        OrderHub orderHub = OrderHub.getOrderHub();
-        orderHub.addObserver(this); // register tracker instance with the orderhub
         // initialise this tracker instance as an observer
         Label laTitle = new Label("Order_ID,  State");
         laTitle.setStyle(UIStyle.labelTitleStyle);
@@ -61,6 +59,12 @@ public class OrderTracker implements PropertyChangeListener {
         TreeMap<Integer,OrderState> updatedMap = (TreeMap<Integer,OrderState>) evt.getNewValue();
         setOrderMap(updatedMap);
     }
+
+    public void registerWithOrderHub(){
+        OrderHub orderHub = OrderHub.getOrderHub();
+        orderHub.addObserver(this); // register tracker instance with the orderhub
+    }
+
 
     /**
      * Sets the order map with new data and refreshes the display.
