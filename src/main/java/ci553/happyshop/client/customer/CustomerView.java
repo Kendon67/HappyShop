@@ -113,6 +113,13 @@ public class CustomerView  {
         btnAddToTrolley.setOnAction(this::buttonClicked);
         HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
 
+        // box for item level control
+        ComboBox<Integer> quantitySelect  = new ComboBox<>();
+        for (int i = 0; i < 10; i++) {
+            quantitySelect.getItems().add(i);
+        }
+        quantitySelect.setValue(1);
+
         obeProductList = FXCollections.observableArrayList();
         obrLvProducts = new ListView<>(obeProductList);
         obrLvProducts.setPrefHeight(HEIGHT - 50);
@@ -129,7 +136,7 @@ public class CustomerView  {
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
         lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, obrLvProducts);
+        HBox hbSearchResult = new HBox(5, obrLvProducts, quantitySelect);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
@@ -156,7 +163,7 @@ public class CustomerView  {
 
                     ImageView ivPro;
                     try{
-                        ivPro = new ImageView(new Image(imageUri, 50, 50, true, true ));
+                        ivPro = new ImageView(new Image(imageUri, 50, 50, true, true));
                     }
                     catch(Exception e){
                         ivPro = new ImageView(new Image("imageHolder.jpg", 50, 45, true, true));
@@ -173,9 +180,7 @@ public class CustomerView  {
         obrLvProducts.setOnMouseClicked(event -> {
             try {
                 cusController.doAction("Select Item");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -183,7 +188,7 @@ public class CustomerView  {
         return vbSearchPage;
     }
 
-    //update the product listVew of serachPage
+    //update the product listVew of searchPage
     void updateObservableProductList( ArrayList<Product> productList) {
         System.out.println("updateObservableProductList");
         int proCounter = productList.size();

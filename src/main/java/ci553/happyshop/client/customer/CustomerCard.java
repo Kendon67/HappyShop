@@ -2,7 +2,6 @@ package ci553.happyshop.client.customer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 // Build card object to store the details required
 public class CustomerCard {
@@ -12,15 +11,30 @@ public class CustomerCard {
     protected String expiryDate = "";
     protected String cvv = "";
 
-
-public void recieveDetails(String cardholderName, String cardNumber, String expiryDate, String cvv){
-    this.cardholderName = cardholderName;
-    this.cardNumber = cardNumber;
-    this.expiryDate = expiryDate;
-    this.cvv = cvv;
+    public void recieveDetails(String cardholderName, String cardNumber, String expiryDate, String cvv){
+    setCardholderName(cardholderName);
+    setCardNumber(cardNumber);
+    setExpiryDate(expiryDate);
+    setCvv(cvv);
 
     System.out.println(validate());
 }
+
+    public void setCardholderName(String cardholderName) {
+        this.cardholderName = cardholderName;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
 
     public boolean validate() {
         if (cardholderName != null
