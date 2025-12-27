@@ -2,7 +2,6 @@ package ci553.happyshop.client.customer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 // Build card object to store the details required
 public class CustomerCard {

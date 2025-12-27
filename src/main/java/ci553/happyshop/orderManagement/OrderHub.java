@@ -7,6 +7,9 @@ import ci553.happyshop.client.picker.PickerModel;
 import ci553.happyshop.storageAccess.OrderFileManager;
 import ci553.happyshop.utility.StorageLocation;
 
+import java.beans.PropertyChangeSupport;
+import java.util.Observer;
+import java.util.Observable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,6 +54,8 @@ public class OrderHub  {
     private TreeMap<Integer,OrderState> OrderedOrderMap = new TreeMap<>();
     private TreeMap<Integer,OrderState> progressingOrderMap = new TreeMap<>();
 
+    private PropertyChangeSupport pcs;
+
     /**
      * Two Lists to hold all registered OrderTracker and PickerModel observers.
      * These observers are notified whenever the orderMap is updated,
@@ -65,7 +70,10 @@ public class OrderHub  {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     //Singleton pattern
-    private OrderHub() {}
+    private OrderHub() {
+        pcs  = new PropertyChangeSupport(this);
+    }
+
     public static OrderHub getOrderHub() {
         if (orderHub == null)
             orderHub = new OrderHub();

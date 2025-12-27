@@ -1,6 +1,5 @@
 package ci553.happyshop.client.login;
 
-import ci553.happyshop.utility.UIStyle;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
