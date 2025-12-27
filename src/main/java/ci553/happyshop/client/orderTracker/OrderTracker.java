@@ -51,14 +51,16 @@ public class OrderTracker {
         window.show();
     }
 
+
+
     /**
      * Registers this OrderTracker instance with the OrderHub.
      * This allows the OrderTracker to receive updates on order state changes.
      */
-    public void registerWithOrderHub(){
-        OrderHub orderHub = OrderHub.getOrderHub();
-        orderHub.registerOrderTracker(this);
-    }
+//    public void registerWithOrderHub(){
+//        OrderHub orderHub = OrderHub.getOrderHub();
+//        orderHub.registerOrderTracker(this);
+//    }
 
     /**
      * Sets the order map with new data and refreshes the display.

@@ -113,8 +113,8 @@ public class OrderHub  {
 
     public void notifyPickerModels() {
         TreeMap<Integer, OrderState> pickerOrderMap = new TreeMap<>();
-        pickerOrderMap.putAll(filterOrdersByState(OrderState.Progressing));
         pickerOrderMap.putAll(filterOrdersByState(OrderState.Ordered));
+        pickerOrderMap.putAll(filterOrdersByState(OrderState.Progressing));
         pcs.firePropertyChange("pickerOrderMap", null, pickerOrderMap);
     }
 
