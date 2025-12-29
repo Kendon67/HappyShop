@@ -133,7 +133,7 @@ public class CustomerView  {
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
-        vbSearchPage.setPrefWidth(COLUMN_WIDTH);
+        vbSearchPage.setPrefWidth(UIStyle.customerWinWidth);
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
         vbSearchPage.setStyle("-fx-padding: 15px;");
 

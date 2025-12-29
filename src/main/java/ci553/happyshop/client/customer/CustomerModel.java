@@ -227,6 +227,9 @@ public class CustomerModel {
         if (selectedItem != null && quantity > 0) {
             selectedItem.setOrderedQuantity(quantity);
         }
+        else{
+            System.out.println("Please select a valid quantity");
+        }
     }
 
     /**
