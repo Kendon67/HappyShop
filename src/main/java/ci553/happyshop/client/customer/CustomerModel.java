@@ -119,6 +119,7 @@ public class CustomerModel {
                 theProduct.getProductImageName(),
                 theProduct.getUnitPrice(),
                 theProduct.getStockQuantity());
+        newPr.setOrderedQuantity(theProduct.getOrderedQuantity());
         trolley.add(newPr);
     }
 
