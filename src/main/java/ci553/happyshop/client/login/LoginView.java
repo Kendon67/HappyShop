@@ -87,13 +87,8 @@ public class LoginView {
         warehouseRow.getChildren().addAll(warehouseIconView, warehouseButton);
         warehouseRow.setAlignment(Pos.CENTER);
 
-        HBox managerRow = new HBox(20);
-        Button managerButton = new Button("Manager Login");
-        managerRow.getChildren().add(managerButton);
-        managerRow.setAlignment(Pos.BOTTOM_CENTER);
-
-        VBox rightLayout = new VBox(10);
-        rightLayout.getChildren().addAll(customerRow, warehouseRow, managerRow);
+        VBox rightLayout = new VBox(20);
+        rightLayout.getChildren().addAll(customerRow, warehouseRow);
         rightLayout.setAlignment(Pos.CENTER);
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
