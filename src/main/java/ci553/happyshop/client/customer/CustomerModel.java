@@ -14,9 +14,9 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * TODO
- * You can either directly modify the CustomerModel class to implement the required tasks,
- * or create a subclass of CustomerModel and override specific methods where appropriate.
+ * CustomerModel performs the logic behind the customer client
+ * of the happy shop system
+ * @author Connor McCarthy University of Brighton
  */
 public class CustomerModel {
     public CustomerCard cusCard;

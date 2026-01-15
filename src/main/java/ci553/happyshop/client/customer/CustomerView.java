@@ -24,6 +24,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+/** CustomerView handles the GUI logic for the customer client of the HappyShop
+ * @author Connor McCarthy University of Brighton
+ */
 
 /**
  * The CustomerView is separated into two sections by a line :

@@ -3,6 +3,11 @@ package ci553.happyshop.client.customer;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Customer controller takes calls from the view
+ * It will then call the model to perform these actions keeping MVC pattern
+ * @author Connor McCarthy University of Brighton
+ */
 public class CustomerController {
     public CustomerModel cusModel;
     public CustomerCard cusCard;

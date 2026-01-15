@@ -3,6 +3,12 @@ package ci553.happyshop.client.customer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * CustomerCard allows for creation of card object instances
+ * It further checks and validates the card inputs
+ * @author Connor McCarthy University of Brighton
+ */
+
 // Build card object to store the details required
 public class CustomerCard {
 
