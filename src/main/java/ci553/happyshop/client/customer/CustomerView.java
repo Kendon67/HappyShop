@@ -168,9 +168,10 @@ public class CustomerView  {
                     for (int i = 0; i < 10; i++) {
                         quantitySelect.getItems().add(i);
                     }
-                    quantitySelect.setValue(1);
+                    quantitySelect.setValue(product.getOrderedQuantity());
 
                     quantitySelect.setOnAction(event -> {
+                        product.setOrderedQuantity(quantitySelect.getValue());
                         cusController.setQuantity(quantitySelect.getValue());
                     });
 
