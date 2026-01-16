@@ -12,7 +12,6 @@ public class LoginModel {
     }
 
     public boolean warehouseLogin(TextField username, TextField password) {
-        String userType = "employee";
         return createFileReader(username, password,  "employee");
     }
 
