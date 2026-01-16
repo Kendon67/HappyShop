@@ -53,7 +53,7 @@ public class LoginView {
         leftLayout.getChildren().addAll(title, circularLogo);
         leftLayout.setAlignment(Pos.CENTER);
 
-        // create hboxes for horizontal lining of buttons + image
+        // create hboxes for horizontal lining of button + image
         HBox customerRow = new HBox(20);
 
         Button customerButton = new Button("Customer Login");
@@ -75,7 +75,7 @@ public class LoginView {
 
         Button warehouseButton = new Button("Warehouse Login");
         warehouseButton.setOnAction((event) -> {
-            warehouseLoginPage();
+            loginController.openWarehouseClient();
         });
         // warehouse Icon
         Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
@@ -113,6 +113,15 @@ public class LoginView {
 
         userType = "customer";
 
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.setOnAction((event) -> {
+            try {
+                loginController.createUser(usernameField,passwordField, userType);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         Button loginButton = new Button("Login");
         loginButton.setOnAction((event) -> {
             try {
@@ -145,7 +154,7 @@ public class LoginView {
 
     public void warehouseLoginPage() {
         Stage warehouseloginWindow = new Stage();
-        warehouseloginWindow.setTitle("Warehouse Login");
+        warehouseloginWindow.setTitle("Customer Login");
 
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username: ");
@@ -167,7 +176,7 @@ public class LoginView {
         Button loginButton = new Button("Login");
         loginButton.setOnAction((event) -> {
             try {
-                loginController.warehouseLogin(usernameField,passwordField);
+                loginController.userLogin(usernameField,passwordField);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
