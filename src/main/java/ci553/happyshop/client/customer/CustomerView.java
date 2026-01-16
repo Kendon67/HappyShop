@@ -29,8 +29,8 @@ import java.util.ArrayList;
  */
 
 /**
+ * @author Connor McCarthy University of Brighton
  * The CustomerView is separated into two sections by a line :
- *
  * 1. Search Page – Always visible, allowing customers to browse and search for products.
  * 2. the second page – display either the Trolley Page or the Receipt Page
  *    depending on the current context. Only one of these is shown at a time.
@@ -264,9 +264,7 @@ public class CustomerView  {
         cashBtn.setOnAction(actionEvent1 -> {
             try {
                 cashPaymentPage();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -325,7 +323,7 @@ public class CustomerView  {
         cashBox.getChildren().addAll(cashEntry, submitBtn);
         cashWindow.setScene(new Scene(cashBox));
         cashWindow.show();
-    };
+    }
 
     public void cardInvalid(){
         Dialog<String> cardInvalidAlert = new Dialog<>();
@@ -351,7 +349,7 @@ public class CustomerView  {
         paymentAcceptedAlert.setContentText("Change: £" + change);
         paymentAcceptedAlert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         paymentAcceptedAlert.showAndWait();
-    };
+    }
 
     public void cashFailed() {
         Dialog<String> cashFailedAlert = new Dialog<>();
@@ -421,6 +419,34 @@ public class CustomerView  {
             hbRoot.getChildren().set(lastIndex, pageToShow);
         }
     }
+//    public void playSound(String soundPath){
+//        try{
+//            Media SFX = new Media(Objects.requireNonNull(getClass().getResource(soundPath)).toExternalForm()); // retrieves sound file from provided path
+//            MediaPlayer soundPlayer = new MediaPlayer(SFX);
+//            soundPlayer.play();
+//        }
+//        catch (Exception e){
+//            System.out.println("Error, No sound effect found");
+//            System.out.println (e);
+//        }
+//    }
+//
+//    public void playMusic (String musicPath){
+//        try{
+//            Media Music = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
+//            MediaPlayer musicPlayer = new MediaPlayer(Music);
+//            musicPlayer.play();
+//        }
+//        catch (Exception e){
+//            System.out.println("Error, No music file found");
+//            System.out.println (e);
+//        }
+//    }
+//
+//    public void playErrorSound(){
+//        playSound("/sounds/Windows_Hardware_Remove.wav");
+//    }
+
 
     WindowBounds getWindowBounds() {
         return new WindowBounds(viewWindow.getX(), viewWindow.getY(),
