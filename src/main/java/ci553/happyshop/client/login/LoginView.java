@@ -75,7 +75,7 @@ public class LoginView {
 
         Button warehouseButton = new Button("Warehouse Login");
         warehouseButton.setOnAction((event) -> {
-            loginController.openWarehouseClient();
+            warehouseLoginPage();
         });
         // warehouse Icon
         Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
@@ -87,13 +87,8 @@ public class LoginView {
         warehouseRow.getChildren().addAll(warehouseIconView, warehouseButton);
         warehouseRow.setAlignment(Pos.CENTER);
 
-        HBox managerRow = new HBox(20);
-        Button managerButton = new Button("Manager Login");
-        managerRow.getChildren().add(managerButton);
-        managerRow.setAlignment(Pos.BOTTOM_CENTER);
-
-        VBox rightLayout = new VBox(10);
-        rightLayout.getChildren().addAll(customerRow, warehouseRow, managerRow);
+        VBox rightLayout = new VBox(20);
+        rightLayout.getChildren().addAll(customerRow, warehouseRow);
         rightLayout.setAlignment(Pos.CENTER);
 
         HBox.setHgrow(leftLayout, Priority.ALWAYS);
@@ -146,8 +141,9 @@ public class LoginView {
             }
         });
 
-        VBox loginBox = new VBox();
+        VBox loginBox = new VBox(15);
         loginBox.setAlignment(Pos.CENTER);
+        loginBox.setStyle("-fx-background-color: #E6E0F8;");
         loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton, cancelButton);
 
         Scene scene = new Scene(loginBox, 500, 500);
@@ -155,4 +151,57 @@ public class LoginView {
         userloginWindow.setScene(scene);
         userloginWindow.show();
     }
+
+    public void warehouseLoginPage() {
+        Stage warehouseloginWindow = new Stage();
+        warehouseloginWindow.setTitle("Warehouse Login");
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Username: ");
+
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Password: ");
+
+        userType = "employee";
+
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.setOnAction((event) -> {
+            try {
+                loginController.createUser(usernameField,passwordField, userType);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button loginButton = new Button("Login");
+        loginButton.setOnAction((event) -> {
+            try {
+                loginController.warehouseLogin(usernameField,passwordField);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction((event) -> {
+            try{
+                startLogin(warehouseloginWindow);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        VBox loginBox = new VBox(15);
+        loginBox.setAlignment(Pos.CENTER);
+        loginBox.setStyle("-fx-background-color: #E6E0F8;");
+        loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton, cancelButton);
+
+        Scene scene = new Scene(loginBox, 500, 500);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("style/login.css")).toExternalForm());
+        warehouseloginWindow.setScene(scene);
+        warehouseloginWindow.show();
+    }
+
+
 }
