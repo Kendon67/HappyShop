@@ -118,7 +118,8 @@ public class CustomerModel {
                 theProduct.getProductDescription(),
                 theProduct.getProductImageName(),
                 theProduct.getUnitPrice(),
-                theProduct.getOrderedQuantity());
+                theProduct.getStockQuantity());
+        newPr.setOrderedQuantity(theProduct.getOrderedQuantity());
         trolley.add(newPr);
     }
 
@@ -219,6 +220,17 @@ public class CustomerModel {
         else{
             cusView.cashFailed();
         };
+    }
+
+    public void setSearchItemQuantity(int quantity) {
+        Product selectedItem = selectItem();
+        System.out.println(quantity);
+        if (selectedItem != null && quantity > 0) {
+            selectedItem.setOrderedQuantity(quantity);
+        }
+        else{
+            System.out.println("Please select a valid quantity");
+        }
     }
 
     /**
