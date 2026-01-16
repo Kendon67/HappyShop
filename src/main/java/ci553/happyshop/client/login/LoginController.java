@@ -3,6 +3,7 @@ package ci553.happyshop.client.login;
 import ci553.happyshop.client.MainController;
 import ci553.happyshop.client.customer.CustomerView;
 import ci553.happyshop.client.warehouse.WarehouseView;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -30,6 +31,18 @@ public class LoginController {
     public void userLogin(TextField username, TextField password) throws IOException {
         if (loginModel.userLogin(username, password)) {
                 openCustomerClient();
+        }
+    }
+
+    public void warehouseLogin(TextField username, TextField password) throws IOException {
+        if (loginModel.warehouseLogin(username, password)) {
+            openWarehouseClient();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Incorrect Credentials");
+            alert.setHeaderText("Incorrect Credentials");
+            alert.showAndWait();
         }
     }
 }
