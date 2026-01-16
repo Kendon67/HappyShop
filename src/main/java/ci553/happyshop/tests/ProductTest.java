@@ -4,6 +4,7 @@ import ci553.happyshop.catalogue.Product;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ProductTest {
 
@@ -23,12 +24,4 @@ public class ProductTest {
         p.setOrderedQuantity(6);
         assertEquals(6, p.getOrderedQuantity());
     }
-
-    @Test
-    public void getQuantityTest() throws Exception {
-        Product p = new Product("0009", "ProductTest", "imageHolder.jpg", 2.00, 200);
-        p.setOrderedQuantity(2);
-        assertEquals(2, p.getOrderedQuantity());
-    }
-
 }
