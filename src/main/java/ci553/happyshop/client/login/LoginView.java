@@ -75,7 +75,7 @@ public class LoginView {
 
         Button warehouseButton = new Button("Warehouse Login");
         warehouseButton.setOnAction((event) -> {
-            loginController.openWarehouseClient();
+            warehouseLoginPage();
         });
         // warehouse Icon
         Image warehouseIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("warehouse_icon.png")));
@@ -154,7 +154,7 @@ public class LoginView {
 
     public void warehouseLoginPage() {
         Stage warehouseloginWindow = new Stage();
-        warehouseloginWindow.setTitle("Customer Login");
+        warehouseloginWindow.setTitle("Warehouse Login");
 
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username: ");
@@ -176,7 +176,7 @@ public class LoginView {
         Button loginButton = new Button("Login");
         loginButton.setOnAction((event) -> {
             try {
-                loginController.userLogin(usernameField,passwordField);
+                loginController.warehouseLogin(usernameField,passwordField);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
