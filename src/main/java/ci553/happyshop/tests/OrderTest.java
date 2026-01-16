@@ -16,6 +16,7 @@ public class OrderTest {
     private Order order;
     private ArrayList<Product> products;
 
+    // set up products list before testing
     @Before
     public void setUp() throws Exception {
         products = new ArrayList<>();
@@ -25,6 +26,7 @@ public class OrderTest {
         order = new Order(1, Ordered, "2025-11-13 12:32:12", products);
     }
 
+    // make sure order is retrieved correctly
     @Test
     public void getOrderTest() throws Exception {
         assertEquals(1, order.getOrderId());

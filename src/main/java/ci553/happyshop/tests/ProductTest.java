@@ -18,6 +18,7 @@ public class ProductTest {
         assertEquals(200, p.getStockQuantity());
     }
 
+    // test set quantity method works as intended
     @Test
     public void setQuantityTest() throws Exception {
         Product p = new Product("0009", "ProductTest", "imageHolder.jpg", 2.00, 200);

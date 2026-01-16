@@ -19,7 +19,7 @@ public class cusModelTest {
         cusModel = new CustomerModel();
     }
 
-
+    // test trolley adds products correctly
     @Test
     public void trolleyAddsProduct() throws Exception {
         Product p = new Product("0009", "ProductTest", "imageHolder.jpg", 2.00, 200);
@@ -28,6 +28,7 @@ public class cusModelTest {
         assertEquals(1, trolley.size());
     }
 
+    // test trolley increments product without making list larger (merging items)
     @Test
     public void trolleyIncrementsProduct() throws Exception {
         Product p = new Product("0009", "ProductTest", "imageHolder.jpg", 2.00, 200);
