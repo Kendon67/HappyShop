@@ -53,7 +53,7 @@ public class LoginView {
         leftLayout.getChildren().addAll(title, circularLogo);
         leftLayout.setAlignment(Pos.CENTER);
 
-        // create hboxes for horizontal lining of button + image
+        // create hboxes for horizontal lining of buttons + image
         HBox customerRow = new HBox(20);
 
         Button customerButton = new Button("Customer Login");
@@ -112,15 +112,6 @@ public class LoginView {
         passwordField.setPromptText("Password: ");
 
         userType = "customer";
-
-        Button signUpButton = new Button("Sign Up");
-        signUpButton.setOnAction((event) -> {
-            try {
-                loginController.createUser(usernameField,passwordField, userType);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction((event) -> {
