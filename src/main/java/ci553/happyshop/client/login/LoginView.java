@@ -141,8 +141,9 @@ public class LoginView {
             }
         });
 
-        VBox loginBox = new VBox();
+        VBox loginBox = new VBox(15);
         loginBox.setAlignment(Pos.CENTER);
+        loginBox.setStyle("-fx-background-color: #E6E0F8;");
         loginBox.getChildren().addAll(usernameField, passwordField, loginButton, signUpButton, cancelButton);
 
         Scene scene = new Scene(loginBox, 500, 500);

@@ -14,8 +14,10 @@
     -fx-text-fill: white;
     -fx-background-radius: 8;
     -fx-padding: 10 20;
+    -fx-margi
     -fx-font-size: 14px;
 }
+
 
 #leftLayout {
     -fx-background-color: #AF69EE;
